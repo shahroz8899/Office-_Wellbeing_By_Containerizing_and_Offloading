@@ -1,5 +1,5 @@
 
-# 📡 MQTT Image Receiver & Forwarder (Jetson Orin Integration)
+# 📡 MQTT (Server) Image Receiver & Forwarder (Jetson Orin Integration)
 
 This Python script listens to MQTT topics from multiple Raspberry Pi devices (`pi1`, `pi2`, `pi3`), receives base64-encoded image data, saves them into device-specific folders, and then **forwards each image to a Jetson Orin** via another MQTT topic. It acts as a central message router and pre-processor in a distributed containerized AI pipeline.
 
