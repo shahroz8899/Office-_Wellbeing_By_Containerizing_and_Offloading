@@ -1,0 +1,483 @@
+2024-11-07 13:23:12,921 INFO:Connected with result code 0
+2024-11-07 13:23:35,287 INFO:Image saved to received_images/img.jpg
+2024-11-07 13:23:46,003 INFO:Image saved to received_images/img.jpg
+2024-11-07 13:23:57,382 INFO:Image saved to received_images/img.jpg
+2024-11-07 13:24:08,736 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:00:26,315 INFO:Connected with result code 0
+2024-11-11 15:00:59,475 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:11,953 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:21,991 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:28,464 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:33,310 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:39,425 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:41,093 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:44,878 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:01:52,748 INFO:Image saved to received_images/img.jpg
+2024-11-11 15:02:09,274 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:09:05,601 INFO:Connected with result code 0
+2024-11-12 13:12:15,918 INFO:Connected with result code 0
+2024-11-12 13:14:40,063 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:14:52,488 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:15:02,892 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:15:04,499 INFO:Connected with result code 0
+2024-11-12 13:15:14,289 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:15:25,980 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:15:29,685 INFO:Image saved to received_images/img.jpg
+2024-11-12 13:22:28,369 INFO:Connected with result code 0
+2024-11-12 13:22:47,162 INFO:Image saved to received_images/1.jpg
+2024-11-12 13:22:58,277 INFO:Image saved to received_images/2.jpg
+2024-11-12 13:23:09,946 INFO:Image saved to received_images/3.jpg
+2024-11-12 13:23:17,736 INFO:Image saved to received_images/4.jpg
+2024-11-12 13:23:28,777 INFO:Image saved to received_images/5.jpg
+2024-11-12 13:23:40,452 INFO:Image saved to received_images/6.jpg
+2024-11-12 13:23:51,831 INFO:Image saved to received_images/7.jpg
+2024-11-12 13:24:02,902 INFO:Image saved to received_images/8.jpg
+2024-11-12 13:24:14,632 INFO:Image saved to received_images/9.jpg
+2024-11-12 13:24:26,028 INFO:Image saved to received_images/10.jpg
+2024-11-12 13:24:37,315 INFO:Image saved to received_images/11.jpg
+2024-11-12 13:24:49,199 INFO:Image saved to received_images/12.jpg
+2024-11-12 13:25:00,068 INFO:Image saved to received_images/13.jpg
+2024-11-12 13:25:12,071 INFO:Image saved to received_images/14.jpg
+2024-11-12 13:25:23,728 INFO:Image saved to received_images/15.jpg
+2024-11-12 13:25:34,434 INFO:Image saved to received_images/16.jpg
+2024-11-12 13:25:46,466 INFO:Image saved to received_images/17.jpg
+2024-11-12 13:25:56,885 INFO:Image saved to received_images/18.jpg
+2024-11-12 13:26:08,824 INFO:Image saved to received_images/19.jpg
+2024-11-12 13:26:19,811 INFO:Image saved to received_images/20.jpg
+2024-11-12 13:26:30,977 INFO:Image saved to received_images/21.jpg
+2024-11-12 13:26:43,035 INFO:Image saved to received_images/22.jpg
+2024-11-12 13:26:54,213 INFO:Image saved to received_images/23.jpg
+2024-11-12 13:27:05,235 INFO:Image saved to received_images/24.jpg
+2024-11-12 13:27:16,716 INFO:Image saved to received_images/25.jpg
+2024-11-12 13:27:28,028 INFO:Image saved to received_images/26.jpg
+2024-11-12 13:27:39,304 INFO:Image saved to received_images/27.jpg
+2024-11-12 13:27:50,591 INFO:Image saved to received_images/28.jpg
+2024-11-12 13:28:01,907 INFO:Image saved to received_images/29.jpg
+2024-11-12 13:28:13,584 INFO:Image saved to received_images/30.jpg
+2024-11-12 13:28:25,058 INFO:Image saved to received_images/31.jpg
+2024-11-12 13:28:36,777 INFO:Image saved to received_images/32.jpg
+2024-11-12 13:28:48,052 INFO:Image saved to received_images/33.jpg
+2024-11-12 13:28:58,812 INFO:Image saved to received_images/34.jpg
+2024-11-12 13:29:10,342 INFO:Image saved to received_images/35.jpg
+2024-11-12 13:29:21,793 INFO:Image saved to received_images/36.jpg
+2024-11-12 13:29:33,151 INFO:Image saved to received_images/37.jpg
+2024-11-12 13:29:44,661 INFO:Image saved to received_images/38.jpg
+2024-11-12 13:29:55,982 INFO:Image saved to received_images/39.jpg
+2024-11-12 13:30:07,534 INFO:Image saved to received_images/40.jpg
+2024-11-12 13:30:18,450 INFO:Image saved to received_images/41.jpg
+2024-11-12 13:30:30,090 INFO:Image saved to received_images/42.jpg
+2024-11-12 13:30:41,796 INFO:Image saved to received_images/43.jpg
+2024-11-12 13:30:52,537 INFO:Image saved to received_images/44.jpg
+2024-11-12 13:31:04,297 INFO:Image saved to received_images/45.jpg
+2024-11-12 13:31:15,594 INFO:Image saved to received_images/46.jpg
+2024-11-12 13:31:27,259 INFO:Image saved to received_images/47.jpg
+2024-11-12 13:31:39,129 INFO:Image saved to received_images/48.jpg
+2024-11-12 13:31:49,518 INFO:Image saved to received_images/49.jpg
+2024-11-12 13:32:01,464 INFO:Image saved to received_images/50.jpg
+2024-11-12 13:32:12,918 INFO:Image saved to received_images/51.jpg
+2024-11-12 13:32:23,585 INFO:Image saved to received_images/52.jpg
+2024-11-12 13:32:35,241 INFO:Image saved to received_images/53.jpg
+2024-11-12 13:32:46,582 INFO:Image saved to received_images/54.jpg
+2024-11-12 13:32:58,059 INFO:Image saved to received_images/55.jpg
+2024-11-12 13:33:09,368 INFO:Image saved to received_images/56.jpg
+2024-11-12 13:33:21,438 INFO:Image saved to received_images/57.jpg
+2024-11-12 13:33:32,297 INFO:Image saved to received_images/58.jpg
+2024-11-12 13:33:43,558 INFO:Image saved to received_images/59.jpg
+2024-11-12 13:33:54,793 INFO:Image saved to received_images/60.jpg
+2024-11-12 13:34:06,297 INFO:Image saved to received_images/61.jpg
+2024-11-12 13:34:17,658 INFO:Image saved to received_images/62.jpg
+2024-11-12 13:34:29,148 INFO:Image saved to received_images/63.jpg
+2024-11-12 13:34:40,491 INFO:Image saved to received_images/64.jpg
+2024-11-12 13:34:51,680 INFO:Image saved to received_images/65.jpg
+2024-11-12 13:35:03,126 INFO:Image saved to received_images/66.jpg
+2024-11-12 13:35:14,725 INFO:Image saved to received_images/67.jpg
+2024-11-12 13:35:26,376 INFO:Image saved to received_images/68.jpg
+2024-11-12 13:35:37,229 INFO:Image saved to received_images/69.jpg
+2024-11-12 13:35:49,028 INFO:Image saved to received_images/70.jpg
+2024-11-12 13:36:00,918 INFO:Image saved to received_images/71.jpg
+2024-11-12 13:36:11,367 INFO:Image saved to received_images/72.jpg
+2024-11-12 13:36:22,723 INFO:Image saved to received_images/73.jpg
+2024-11-12 13:36:34,334 INFO:Image saved to received_images/74.jpg
+2024-11-12 13:36:45,768 INFO:Image saved to received_images/75.jpg
+2024-11-12 13:36:57,100 INFO:Image saved to received_images/76.jpg
+2024-11-12 13:37:08,177 INFO:Image saved to received_images/77.jpg
+2024-11-12 13:37:19,450 INFO:Image saved to received_images/78.jpg
+2024-11-12 13:37:31,098 INFO:Image saved to received_images/79.jpg
+2024-11-12 13:37:42,303 INFO:Image saved to received_images/80.jpg
+2024-11-12 13:37:53,642 INFO:Image saved to received_images/81.jpg
+2024-11-12 13:38:05,213 INFO:Image saved to received_images/82.jpg
+2024-11-12 13:38:16,707 INFO:Image saved to received_images/83.jpg
+2024-11-12 13:38:27,840 INFO:Image saved to received_images/84.jpg
+2024-11-12 13:38:39,139 INFO:Image saved to received_images/85.jpg
+2024-11-12 13:38:50,932 INFO:Image saved to received_images/86.jpg
+2024-11-12 13:39:01,938 INFO:Image saved to received_images/87.jpg
+2024-11-12 13:39:13,350 INFO:Image saved to received_images/88.jpg
+2024-11-12 13:39:25,137 INFO:Image saved to received_images/89.jpg
+2024-11-12 13:39:36,663 INFO:Image saved to received_images/90.jpg
+2024-11-12 13:39:47,607 INFO:Image saved to received_images/91.jpg
+2024-11-12 13:39:58,987 INFO:Image saved to received_images/92.jpg
+2024-11-12 13:40:10,496 INFO:Image saved to received_images/93.jpg
+2024-11-12 13:40:21,488 INFO:Image saved to received_images/94.jpg
+2024-11-12 13:40:32,974 INFO:Image saved to received_images/95.jpg
+2024-11-12 13:40:44,500 INFO:Image saved to received_images/96.jpg
+2024-11-12 13:40:55,848 INFO:Image saved to received_images/97.jpg
+2024-11-12 13:41:07,194 INFO:Image saved to received_images/98.jpg
+2024-11-12 13:41:18,532 INFO:Image saved to received_images/99.jpg
+2024-11-12 13:41:29,891 INFO:Image saved to received_images/100.jpg
+2024-11-12 13:41:41,354 INFO:Image saved to received_images/101.jpg
+2024-11-12 13:41:52,478 INFO:Image saved to received_images/102.jpg
+2024-11-12 13:42:03,883 INFO:Image saved to received_images/103.jpg
+2024-11-12 13:42:15,242 INFO:Image saved to received_images/104.jpg
+2024-11-12 13:42:26,731 INFO:Image saved to received_images/105.jpg
+2024-11-12 13:42:38,860 INFO:Image saved to received_images/106.jpg
+2024-11-12 13:42:49,783 INFO:Image saved to received_images/107.jpg
+2024-11-12 13:43:00,785 INFO:Image saved to received_images/108.jpg
+2024-11-12 13:43:12,383 INFO:Image saved to received_images/109.jpg
+2024-11-12 13:43:23,855 INFO:Image saved to received_images/110.jpg
+2024-11-12 13:43:34,922 INFO:Image saved to received_images/111.jpg
+2024-11-12 13:43:46,935 INFO:Image saved to received_images/112.jpg
+2024-11-12 13:43:57,593 INFO:Image saved to received_images/113.jpg
+2024-11-12 13:44:20,577 INFO:Image saved to received_images/114.jpg
+2024-11-12 13:44:43,255 INFO:Image saved to received_images/115.jpg
+2024-11-12 13:44:54,610 INFO:Image saved to received_images/116.jpg
+2024-11-12 13:45:13,980 INFO:Image saved to received_images/117.jpg
+2024-11-12 13:45:24,862 INFO:Image saved to received_images/118.jpg
+2024-11-12 13:45:35,942 INFO:Image saved to received_images/119.jpg
+2024-11-12 13:45:47,480 INFO:Image saved to received_images/120.jpg
+2024-11-12 13:45:58,617 INFO:Image saved to received_images/121.jpg
+2024-11-12 13:46:02,612 INFO:Image saved to received_images/122.jpg
+2024-11-12 13:56:33,269 INFO:Connected with result code 0
+2024-11-12 13:56:53,283 INFO:Image saved to received_images/images_from_unknown/unknown_01.jpg
+2024-11-12 13:57:05,203 INFO:Image saved to received_images/images_from_unknown/unknown_02.jpg
+2024-11-12 13:57:16,967 INFO:Image saved to received_images/images_from_unknown/unknown_03.jpg
+2024-11-12 13:57:27,498 INFO:Image saved to received_images/images_from_unknown/unknown_04.jpg
+2024-11-12 13:59:05,679 INFO:Image saved to received_images/images_from_unknown/unknown_05.jpg
+2024-11-12 13:59:17,232 INFO:Image saved to received_images/images_from_unknown/unknown_06.jpg
+2024-11-12 13:59:28,701 INFO:Image saved to received_images/images_from_unknown/unknown_07.jpg
+2024-11-12 13:59:39,687 INFO:Image saved to received_images/images_from_unknown/unknown_08.jpg
+2024-11-12 13:59:50,939 INFO:Image saved to received_images/images_from_unknown/unknown_09.jpg
+2024-11-12 14:00:02,420 INFO:Image saved to received_images/images_from_unknown/unknown_10.jpg
+2024-11-12 14:03:34,138 INFO:Connected with result code 0
+2024-11-12 14:04:20,517 WARNING:Image prefix not found; skipping image save.
+2024-11-12 14:04:32,533 WARNING:Image prefix not found; skipping image save.
+2024-11-12 14:04:43,075 WARNING:Image prefix not found; skipping image save.
+2024-11-12 14:04:55,210 WARNING:Image prefix not found; skipping image save.
+2024-11-12 14:07:05,083 INFO:Connected with result code 0
+2024-11-12 14:07:10,675 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:07:22,085 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:07:33,465 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:07:44,988 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:07:56,720 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:08:01,238 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:08:04,055 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:08:15,535 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:08:26,889 WARNING:Image prefix not found in the topic; skipping image save.
+2024-11-12 14:08:28,606 INFO:Connected with result code 0
+2024-11-12 14:08:38,451 INFO:Image saved to received_images/images_from_unknown/unknown_01.jpg
+2024-11-12 14:15:43,099 INFO:Connected with result code 0
+2024-11-12 14:15:57,213 INFO:Image saved to received_images/images_from_unknown/unknown_01.jpg
+2024-11-12 14:16:08,576 INFO:Image saved to received_images/images_from_unknown/unknown_02.jpg
+2024-11-12 14:18:27,663 INFO:Connected with result code 0
+2024-11-12 14:18:34,532 INFO:Image saved to received_images/images_from_pi1/pi1_01.jpg
+2024-11-12 14:18:34,631 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_01.jpg
+2024-11-12 14:18:45,822 INFO:Image saved to received_images/images_from_pi1/pi1_02.jpg
+2024-11-12 14:18:45,958 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_02.jpg
+2024-11-12 14:18:57,342 INFO:Image saved to received_images/images_from_pi1/pi1_03.jpg
+2024-11-12 14:18:57,820 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_03.jpg
+2024-11-12 14:19:08,391 INFO:Image saved to received_images/images_from_pi1/pi1_04.jpg
+2024-11-12 14:19:08,578 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_04.jpg
+2024-11-12 14:19:19,860 INFO:Image saved to received_images/images_from_pi1/pi1_05.jpg
+2024-11-12 14:19:20,082 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_05.jpg
+2024-11-12 14:19:22,055 INFO:Image saved to received_images/images_from_pi2/pi2_01.jpg
+2024-11-12 14:19:22,231 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_06.jpg
+2024-11-12 14:19:30,933 INFO:Image saved to received_images/images_from_pi1/pi1_06.jpg
+2024-11-12 14:19:31,082 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_07.jpg
+2024-11-12 14:19:33,225 INFO:Image saved to received_images/images_from_pi2/pi2_02.jpg
+2024-11-12 14:19:33,392 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_08.jpg
+2024-11-12 14:19:42,510 INFO:Image saved to received_images/images_from_pi1/pi1_07.jpg
+2024-11-12 14:19:42,670 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_09.jpg
+2024-11-12 14:19:44,533 INFO:Image saved to received_images/images_from_pi2/pi2_03.jpg
+2024-11-12 14:19:44,705 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_10.jpg
+2024-11-12 14:19:54,069 INFO:Image saved to received_images/images_from_pi1/pi1_08.jpg
+2024-11-12 14:19:54,439 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_11.jpg
+2024-11-12 14:19:55,783 INFO:Image saved to received_images/images_from_pi2/pi2_04.jpg
+2024-11-12 14:19:55,969 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_12.jpg
+2024-11-12 14:20:05,502 INFO:Image saved to received_images/images_from_pi1/pi1_09.jpg
+2024-11-12 14:20:05,916 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_13.jpg
+2024-11-12 14:20:07,102 INFO:Image saved to received_images/images_from_pi2/pi2_05.jpg
+2024-11-12 14:20:07,258 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_14.jpg
+2024-11-12 14:20:16,620 INFO:Image saved to received_images/images_from_pi1/pi1_10.jpg
+2024-11-12 14:20:16,830 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_15.jpg
+2024-11-12 14:20:18,334 INFO:Image saved to received_images/images_from_pi2/pi2_06.jpg
+2024-11-12 14:20:18,509 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_16.jpg
+2024-11-12 14:20:28,365 INFO:Image saved to received_images/images_from_pi1/pi1_11.jpg
+2024-11-12 14:20:28,665 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_17.jpg
+2024-11-12 14:20:29,639 INFO:Image saved to received_images/images_from_pi2/pi2_07.jpg
+2024-11-12 14:20:29,801 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_18.jpg
+2024-11-12 14:20:39,961 INFO:Image saved to received_images/images_from_pi1/pi1_12.jpg
+2024-11-12 14:20:40,147 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_19.jpg
+2024-11-12 14:20:40,865 INFO:Image saved to received_images/images_from_pi2/pi2_08.jpg
+2024-11-12 14:20:41,025 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_20.jpg
+2024-11-12 14:20:50,828 INFO:Image saved to received_images/images_from_pi1/pi1_13.jpg
+2024-11-12 14:20:51,013 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_21.jpg
+2024-11-12 14:20:52,084 INFO:Image saved to received_images/images_from_pi2/pi2_09.jpg
+2024-11-12 14:20:52,259 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_22.jpg
+2024-11-12 14:20:58,950 INFO:Image saved to received_images/images_from_pi3/pi3_01.jpg
+2024-11-12 14:20:59,153 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_23.jpg
+2024-11-12 14:21:01,886 INFO:Image saved to received_images/images_from_pi1/pi1_14.jpg
+2024-11-12 14:21:02,078 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_24.jpg
+2024-11-12 14:21:03,282 INFO:Image saved to received_images/images_from_pi2/pi2_10.jpg
+2024-11-12 14:21:03,448 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_25.jpg
+2024-11-12 14:21:09,627 INFO:Image saved to received_images/images_from_pi3/pi3_02.jpg
+2024-11-12 14:21:09,835 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_26.jpg
+2024-11-12 14:21:13,839 INFO:Image saved to received_images/images_from_pi1/pi1_15.jpg
+2024-11-12 14:21:14,009 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_27.jpg
+2024-11-12 14:21:14,737 INFO:Image saved to received_images/images_from_pi2/pi2_11.jpg
+2024-11-12 14:21:14,991 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_28.jpg
+2024-11-12 14:21:25,167 INFO:Image saved to received_images/images_from_pi1/pi1_16.jpg
+2024-11-12 14:21:25,358 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_29.jpg
+2024-11-12 14:21:36,020 INFO:Image saved to received_images/images_from_pi1/pi1_17.jpg
+2024-11-12 14:21:36,201 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_30.jpg
+2024-11-12 14:21:47,436 INFO:Image saved to received_images/images_from_pi1/pi1_18.jpg
+2024-11-12 14:21:47,586 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_31.jpg
+2024-11-12 14:21:55,647 INFO:Image saved to received_images/images_from_pi2/pi2_01.jpg
+2024-11-12 14:21:56,101 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_01.jpg
+2024-11-12 14:21:59,089 INFO:Image saved to received_images/images_from_pi1/pi1_01.jpg
+2024-11-12 14:21:59,244 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_02.jpg
+2024-11-12 14:22:10,267 INFO:Image saved to received_images/images_from_pi1/pi1_02.jpg
+2024-11-12 14:22:10,429 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_03.jpg
+2024-11-12 14:22:41,883 INFO:Image saved to received_images/images_from_pi2/pi2_01.jpg
+2024-11-12 14:22:42,035 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_01.jpg
+2024-11-12 14:22:53,468 INFO:Image saved to received_images/images_from_pi2/pi2_02.jpg
+2024-11-12 14:22:53,844 INFO:Image saved to received_images/images_from_jetson_orin/jetson_orin_02.jpg
+2024-11-12 16:07:30,181 INFO:Connected with result code 0
+2024-11-12 16:08:18,561 INFO:Image saved to received_images/images_from_pi1/pi1_01.jpg
+2024-11-12 16:08:29,977 INFO:Image saved to received_images/images_from_pi1/pi1_02.jpg
+2024-11-12 16:08:41,725 INFO:Image saved to received_images/images_from_pi1/pi1_03.jpg
+2024-11-12 16:08:52,455 INFO:Image saved to received_images/images_from_pi1/pi1_04.jpg
+2024-11-12 16:09:02,690 INFO:Image saved to received_images/images_from_pi1/pi1_05.jpg
+2024-11-12 16:09:13,729 INFO:Image saved to received_images/images_from_pi1/pi1_06.jpg
+2024-11-12 16:09:20,297 INFO:Image saved to received_images/images_from_pi2/pi2_01.jpg
+2024-11-12 16:09:25,409 INFO:Image saved to received_images/images_from_pi1/pi1_07.jpg
+2024-11-12 16:09:31,313 INFO:Image saved to received_images/images_from_pi2/pi2_02.jpg
+2024-11-12 16:09:33,057 INFO:Image saved to received_images/images_from_pi2/pi2_03.jpg
+2024-11-12 16:09:36,548 INFO:Image saved to received_images/images_from_pi1/pi1_08.jpg
+2024-11-12 16:09:41,378 INFO:Image saved to received_images/images_from_pi3/pi3_01.jpg
+2024-11-12 16:09:48,055 INFO:Image saved to received_images/images_from_pi1/pi1_09.jpg
+2024-11-12 16:09:52,834 INFO:Image saved to received_images/images_from_pi3/pi3_02.jpg
+2024-11-12 16:10:00,165 INFO:Image saved to received_images/images_from_pi1/pi1_10.jpg
+2024-11-12 16:10:04,638 INFO:Image saved to received_images/images_from_pi3/pi3_03.jpg
+2024-11-12 16:10:10,739 INFO:Image saved to received_images/images_from_pi1/pi1_11.jpg
+2024-11-12 16:10:15,298 INFO:Image saved to received_images/images_from_pi3/pi3_04.jpg
+2024-11-12 16:10:22,056 INFO:Image saved to received_images/images_from_pi1/pi1_12.jpg
+2024-11-12 16:10:26,406 INFO:Image saved to received_images/images_from_pi3/pi3_05.jpg
+2024-11-12 16:10:33,433 INFO:Image saved to received_images/images_from_pi1/pi1_13.jpg
+2024-11-12 16:10:45,167 INFO:Image saved to received_images/images_from_pi1/pi1_14.jpg
+2024-11-12 16:10:56,306 INFO:Image saved to received_images/images_from_pi1/pi1_15.jpg
+2024-11-12 16:11:07,651 INFO:Image saved to received_images/images_from_pi1/pi1_16.jpg
+2024-11-12 16:11:19,064 INFO:Image saved to received_images/images_from_pi1/pi1_17.jpg
+2024-11-12 16:11:30,597 INFO:Image saved to received_images/images_from_pi1/pi1_18.jpg
+2024-11-12 16:11:41,770 INFO:Image saved to received_images/images_from_pi1/pi1_19.jpg
+2024-11-12 16:15:21,870 INFO:Image saved to received_images/images_from_pi1/pi1_20.jpg
+2024-11-12 16:17:02,406 INFO:Image saved to received_images/images_from_pi2/pi2_04.jpg
+2024-11-12 16:18:27,104 INFO:Image saved to received_images/images_from_pi3/pi3_01.jpg
+2024-11-12 16:18:38,363 INFO:Image saved to received_images/images_from_pi3/pi3_02.jpg
+2024-11-13 13:42:26,018 INFO:Connected with result code 0
+2024-11-13 13:43:14,373 INFO:Image saved to received_images/images_from_pi1/pi1_01.jpg
+2024-11-13 13:43:26,508 INFO:Image saved to received_images/images_from_pi1/pi1_02.jpg
+2024-11-13 13:43:37,453 INFO:Image saved to received_images/images_from_pi1/pi1_03.jpg
+2024-11-13 14:15:42,903 INFO:Image saved to received_images/images_from_pi1/pi1_04.jpg
+2024-11-13 14:15:54,471 INFO:Image saved to received_images/images_from_pi1/pi1_05.jpg
+2024-11-13 14:16:05,522 INFO:Image saved to received_images/images_from_pi1/pi1_06.jpg
+2024-11-13 14:16:16,889 INFO:Image saved to received_images/images_from_pi1/pi1_07.jpg
+2024-11-13 14:16:28,438 INFO:Image saved to received_images/images_from_pi1/pi1_08.jpg
+2024-11-13 14:16:39,614 INFO:Image saved to received_images/images_from_pi1/pi1_09.jpg
+2024-11-13 14:25:43,697 INFO:Connected with result code 0
+2024-12-02 12:26:03,453 INFO:Connected with result code 0
+2024-12-02 12:26:10,163 INFO:Image saved to received_images/images_from_pi1/pi1_01.jpg
+2024-12-02 12:26:20,732 INFO:Image saved to received_images/images_from_pi1/pi1_02.jpg
+2024-12-02 12:26:32,457 INFO:Image saved to received_images/images_from_pi1/pi1_03.jpg
+2024-12-02 12:26:44,196 INFO:Image saved to received_images/images_from_pi1/pi1_04.jpg
+2024-12-02 12:26:54,864 INFO:Image saved to received_images/images_from_pi1/pi1_05.jpg
+2024-12-02 12:27:06,614 INFO:Image saved to received_images/images_from_pi1/pi1_06.jpg
+2024-12-02 12:27:17,647 INFO:Image saved to received_images/images_from_pi1/pi1_07.jpg
+2024-12-02 12:27:29,078 INFO:Image saved to received_images/images_from_pi1/pi1_08.jpg
+2024-12-02 12:27:40,746 INFO:Image saved to received_images/images_from_pi1/pi1_09.jpg
+2024-12-02 12:27:52,289 INFO:Image saved to received_images/images_from_pi1/pi1_10.jpg
+2024-12-02 12:28:03,146 INFO:Image saved to received_images/images_from_pi1/pi1_11.jpg
+2024-12-02 12:28:15,053 INFO:Image saved to received_images/images_from_pi1/pi1_12.jpg
+2024-12-02 12:40:33,844 INFO:Connected with result code 0
+2024-12-02 12:41:03,479 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:41:14,415 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:41:26,460 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:46:42,077 INFO:Connected with result code 0
+2024-12-02 12:47:08,291 INFO:Connected with result code 0
+2024-12-02 12:47:27,742 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:47:39,173 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:47:50,627 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:48:01,952 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:48:13,531 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:52:51,251 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:53:01,835 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:54:29,458 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:54:31,866 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:54:34,095 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:54:36,562 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:54:56,091 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:54:58,165 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:00,610 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:02,948 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:05,294 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:07,643 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:10,032 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:12,657 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:14,853 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:17,235 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:19,546 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:55:21,933 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:30,706 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:32,744 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:36,339 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:37,429 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:39,853 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:42,102 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:44,458 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:46,796 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:49,193 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:51,608 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:53,958 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:56,380 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 12:56:58,675 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:01:42,075 INFO:Connected with result code 0
+2024-12-02 13:01:53,389 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:01:54,150 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:01:56,514 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:01:58,907 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:01,201 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:03,913 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:05,919 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:08,324 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:10,582 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:13,080 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:15,285 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:18,043 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:20,023 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:22,483 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:24,842 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:27,272 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:29,539 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:32,371 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:34,283 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:36,595 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:39,087 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:41,410 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:43,657 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:46,093 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:48,372 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:50,748 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:53,191 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:55,557 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:02:57,822 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:03:00,334 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:03:02,493 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:03:04,970 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:03:07,317 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:03:09,561 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 13:03:11,991 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:45:08,332 INFO:Docker image 'image-processor' built successfully.
+2024-12-02 15:45:08,444 INFO:Connected with result code 0
+2024-12-02 15:52:22,594 INFO:Docker image 'image-processor' built successfully.
+2024-12-02 15:52:23,013 INFO:Connected with result code 0
+2024-12-02 15:53:14,133 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:17,246 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:18,844 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:21,185 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:23,563 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:25,932 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:28,275 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:30,721 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:32,948 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:35,301 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:37,709 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:40,075 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:42,430 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:44,790 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:47,222 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:49,482 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:51,936 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:54,297 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:53:57,326 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:05,280 INFO:Docker image 'image-processor' built successfully.
+2024-12-02 15:55:05,629 INFO:Connected with result code 0
+2024-12-02 15:55:32,689 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:34,933 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:37,414 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:39,660 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:42,043 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:44,484 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:46,807 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:49,218 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:51,636 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:54,028 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:56,358 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:55:58,714 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:56:01,063 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:56:03,545 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:56:05,888 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:56:08,245 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:56:10,595 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 15:56:13,077 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:02:23,621 INFO:Previous Docker image 'image-processor' removed successfully.
+2024-12-02 16:02:36,367 INFO:Docker image 'image-processor' built successfully.
+2024-12-02 16:02:36,509 INFO:Connected with result code 0
+2024-12-02 16:02:51,421 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:02:53,765 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:02:56,205 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:02:58,550 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:03:00,803 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:03:03,302 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:03:05,483 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:05:56,509 INFO:Previous Docker image 'image-processor' removed successfully.
+2024-12-02 16:06:07,332 INFO:Docker image 'image-processor' built successfully.
+2024-12-02 16:06:07,452 INFO:Connected with result code 0
+2024-12-02 16:10:20,687 INFO:Previous Docker image 'image-processor' removed successfully.
+2024-12-02 16:10:32,697 INFO:Docker image 'image-processor' built successfully.
+2024-12-02 16:10:32,763 INFO:Connected with result code 0
+2024-12-02 16:10:42,634 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:44,824 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:47,276 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:49,714 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:51,923 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:54,325 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:56,677 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:10:59,044 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:01,390 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:03,836 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:06,067 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:08,443 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:10,851 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:13,079 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:15,444 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:17,758 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:20,108 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:22,484 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:24,780 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:11:27,596 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:14,152 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:16,609 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:18,835 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:21,165 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:23,561 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:25,892 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:28,300 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:30,635 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:33,000 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:35,570 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:37,706 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:40,050 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:42,447 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:44,731 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:47,170 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:50,113 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:51,787 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
+2024-12-02 16:20:54,325 INFO:Image saved to received_images/images_from_pi1/pi1.jpg
