@@ -117,27 +117,7 @@ python3 Image_get_and_containerizing.py
 
 ---
 
-## 📁 Directory Overview
 
-```
-Office-_Wellbeing_By_Containerizing_and_Offloading/
-├── RaspberryPi_scripts/
-│   └── mqtt_image_publisher.py
-├── MQTT_server_script/
-│   └── mqtt_image_receiver.py (optional for direct storage or Jetson forward)
-├── Master_node_script/
-│   ├── Image_get_and_containerizing.py
-│   ├── poll_folders.py
-│   └── docker_image_processor/
-│       ├── Dockerfile
-│       └── process_image.py
-└── received_images/
-    ├── images_from_pi1/
-    ├── images_from_pi2/
-    └── images_from_pi3/
-```
-
----
 
 ## 🧪 Testing
 
@@ -171,13 +151,4 @@ cat mqtt_image_receiver.log
 Doctoral Researcher – M3S, University of Oulu  
 Edge AI | Docker | IoT | DevOps
 
----
-
-## 📜 License
-
-This project is licensed under the MIT License.  
-Designed for research, teaching, and smart space experimentation.
-```
-
----
 
