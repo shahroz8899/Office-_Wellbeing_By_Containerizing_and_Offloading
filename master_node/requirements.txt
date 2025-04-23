@@ -1,0 +1,5 @@
+opencv-python
+mediapipe
+paho-mqtt
+numpy
+matplotlib

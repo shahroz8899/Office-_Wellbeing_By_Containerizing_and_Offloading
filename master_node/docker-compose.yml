@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  posture-analyzer:
+    image: posture-analyzer
+    container_name: posture-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - ./posture_analysis.db:/app/posture_analysis.db
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki  # Change this to your actual timezone
+    restart: always
+
