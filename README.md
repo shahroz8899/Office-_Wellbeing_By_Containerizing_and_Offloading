@@ -1,154 +1,106 @@
 
 # 📦 Office Wellbeing System by Containerizing and Offloading Images from Raspberry Pi
 
-This project implements a complete **edge-to-core image pipeline** for monitoring office posture or wellbeing using **Raspberry Pi devices, MQTT messaging, and Docker-based processing** on a master node (e.g., Jetson Orin or any local server).
 
-It enables:
-- Real-time image capture from Raspberry Pis
-- Lightweight messaging using MQTT
-- Intelligent offloading and containerized image processing
-- Organized image storage and extensibility to AI-based posture analysis
 
----
 
-## 🌐 System Architecture
+# 🧠 Posture Analyzer: Edge Offloading System
 
-```text
-+-------------------+        +-------------------+         +--------------------+
-| Raspberry Pi (piX)| -----> |   MQTT Broker     | <------ |   Jetson Orin or   |
-|  - Captures image |        |  (192.168.1.79)   |         |   Master Node      |
-|  - Sends via MQTT |        +-------------------+         +--------------------+
-|  - Topic: images/piX                                     - Receives all MQTT msgs
-|                                                       - Stores images by device
-|                                                       - Launches Docker container
-|                                                       - Resizes image using Pillow
-|                                                       - Logs everything
-```
+This project implements a real-time posture analysis system using containerized image processing, MQTT messaging, and Kubernetes-based offloading. It dynamically runs image processing either locally (on the master node) or remotely (on a worker node), based on CPU load.
 
----
+## 📦 Components
 
-## 🧱 Component Breakdown
+- **MQTT Publisher (Raspberry Pi):** Publishes base64-encoded images from cameras.
+- **Master Node (Jetson Orin/Nano/NUC):**
+  - Receives images via MQTT.
+  - Analyzes posture locally if CPU < 60%.
+  - Offloads analysis to a worker node if CPU ≥ 60%.
+- **Worker Node (e.g., AGX Xavier):** Runs the same Docker container to process images.
+- **Supabase Database:** Stores metadata (e.g., timestamps, angles, posture status, node info).
+- **Docker + Docker Hub:** Used to containerize and distribute the posture analyzer.
+- **K3s + Kubernetes Job:** Orchestrates execution across nodes.
 
-### 🟩 1. Raspberry Pi – Image Capture & Publish
+## 🚀 Features
 
-- Script: `mqtt_image_publisher.py`
-- Captures an image every few seconds using `fswebcam`
-- Encodes the image using `base64`
-- Publishes to topic: `images/pi1`, `images/pi2`, etc.
-- Easily extensible for multiple Pis by changing the topic name
+- 🔁 **CPU-Based Load Balancing:** Automatically offloads to worker if master is overloaded.
+- 📸 **Real-Time Posture Detection:** Uses MediaPipe for landmark detection.
+- 🧠 **Metadata Logging:** Logs analysis data to Supabase (PostgreSQL).
+- 🐳 **Multi-Architecture Docker Support:** Builds for `arm64` and `amd64`.
+- 🔁 **Kubernetes Offloading:** Worker pulls image from Docker Hub and runs job.
+- 📁 **Organized Folder Structure:** Images saved under folders like `analyzed_images_from_pi1/`.
 
-📍 **Stored in**: `RaspberryPi_scripts/`
+## 🛠️ Setup
 
----
-
-### 🟧 2. MQTT Broker – Messaging Backbone
-
-- IP: `192.168.1.79`
-- Port: `1883`
-- Receives image payloads on `images/#` topics
-- Routes to all subscribers, including the master node
-
-🛠 Broker can be [Mosquitto](https://mosquitto.org/), hosted locally or on Jetson.
-
----
-
-### 🟨 3. Master Node – Image Receiving & Containerized Processing
-
-#### Script: `Image_get_and_containerizing.py`
-
-- Subscribes to all MQTT image topics (`images/#`)
-- Skips forwarded messages (e.g., `images/jetson_orin`)
-- Saves incoming images to:
-  - `received_images/images_from_pi1/pi1.jpg`
-- Automatically rebuilds the Docker image (`image-processor`)
-- Launches `poll_folders.py` as a subprocess
-
----
-
-#### Script: `poll_folders.py`
-
-- Continuously monitors the `received_images/` folder
-- Detects newly added or updated images
-- Launches Docker container to process each image:
-  ```bash
-  docker run --rm -v /folder:/images image-processor /images/<filename>
-  ```
-
----
-
-#### Script: `process_image.py` (inside Docker)
-
-- Loads the image using Pillow
-- Resizes it to `1280x720`
-- Saves as `processed_<original>.jpg` inside the same mounted directory
-
----
-
-### 🐳 Docker Image: `image-processor`
-
-- Built using:
-  ```Dockerfile
-  FROM python:3.9-slim
-  WORKDIR /images
-  COPY process_image.py /images/
-  RUN pip install pillow
-  ENTRYPOINT ["python", "process_image.py"]
-  ```
-
-📍 **Stored in**: `docker_image_processor/`
-
----
-
-## 🔁 Workflow Summary
-
-### 1. Raspberry Pi:
+### 1. Clone Repository
 ```bash
-python3 mqtt_image_publisher.py
+git clone https://github.com/yourusername/posture-analyzer.git
+cd posture-analyzer
 ```
-
-### 2. Master Node:
+### How to run the project
+### 2. Build and Push Docker Image
 ```bash
-python3 Image_get_and_containerizing.py
+python3 build_and_push.py
 ```
 
-- Automatically builds Docker image
-- Subscribes to MQTT
-- Spawns folder poller in background
+
+
+### 4. Manually Run on Worker (for testing)
+```bash
+docker run --rm -it \
+  -e SUPABASE_HOST=aws-0-eu-north-1.pooler.supabase.com \
+  -e SUPABASE_DB=postgres \
+  -e SUPABASE_USER=postgres.yvqqpgixkwsiychmwvkc \
+  -e SUPABASE_PASSWORD=University12@ \
+  -e SUPABASE_PORT=5432 \
+  -e SUPABASE_SSL=require \
+  -v ~/analyzed_images:/app/analyzed_images \
+  shahroz90/posture-analyzer
+```
+
+## 📂 Folder Structure
+
+```
+Project2.0/
+├── analyzed_images/
+├── Dockerfile
+├── requirements.txt
+├── mqtt_posture_analyzer_with_db.py
+├── cpu_monitor_and_offload.py
+├── build_and_push.py
+├── docker-compose.yml
+├── posture-job.yaml
+```
+
+## 🧠 Data Logged to Supabase
+
+| Field              | Description                           |
+|-------------------|---------------------------------------|
+| `pi_id`           | Source Pi (e.g., pi1, pi2)             |
+| `filename`        | Image filename                        |
+| `received_time`   | When image was received               |
+| `analyzed_time`   | When analysis completed               |
+| `neck_angle`      | Detected neck angle                   |
+| `body_angle`      | Detected torso angle                  |
+| `posture_status`  | "Good", "Bad", etc.                   |
+| `landmarks_detected` | True/False                        |
+| `processed_by`    | Hostname of node that processed it    |
+
+## 📸 Sample Result
+
+Annotated images saved under:
+
+```
+/home/agx/analyzed_images/analyzed_images_from_pi1/
+```
 
 ---
 
+## 🧑‍💻 Author
 
-
-## 🧪 Testing
-
-### Test MQTT from any device:
-```bash
-mosquitto_pub -h 192.168.1.79 -t images/pi1 -m "<base64 string>"
-```
-
-### View logs:
-```bash
-cat mqtt_image_receiver.log
-```
+**Shahroz Abbas**  
+Doctoral Researcher, University of Oulu  
+[Email](mailto:shahroz.abbas@oulu.fi)
 
 ---
-
-## ✅ Requirements
-
-- Python 3.7+
-- Docker Engine (`docker.io`)
-- Python packages:
-  ```bash
-  pip install paho-mqtt pillow
-  sudo apt install fswebcam
-  ```
-
----
-
-## 👨‍💻 Author
-
-**Muhammad Shahroz Abbas**  
-Doctoral Researcher – M3S, University of Oulu  
-Edge AI | Docker | IoT | DevOps
 
 
