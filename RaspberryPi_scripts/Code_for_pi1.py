@@ -3,9 +3,11 @@ import logging
 import paho.mqtt.client as mqtt
 import time
 import base64
+import cv2
+import datetime
 
 # Configuration
-broker = '192.168.1.79'  # Replace with the IP address of the local server Raspberry Pi
+broker = '192.168.1.79'
 port = 1883
 topic = 'images/pi1'
 image_counter_file = 'image_counter.txt'
@@ -28,29 +30,18 @@ def on_connect(client, userdata, flags, rc):
 def on_publish(client, userdata, mid):
     logging.info(f"Message published with mid {mid}")
 
-# Capture image
-def capture_image(image_path):
-    try:
-        os.system(f'fswebcam -r 1280x720 --no-banner {image_path}')
-        logging.info(f"Image captured and saved to {image_path}")
-    except Exception as e:
-        logging.error(f"Failed to capture image: {e}")
-
 # Publish image
 def publish_image(client, image_path):
     try:
-        # Read and encode image
         with open(image_path, 'rb') as file:
             image_data = base64.b64encode(file.read()).decode()
 
-        # Publish encoded image
         result = client.publish(topic, image_data, qos=1)
         if result.rc == mqtt.MQTT_ERR_SUCCESS:
             logging.info(f"Image {image_path} published successfully.")
         else:
             logging.error(f"Failed to publish image {image_path}. Error code: {result.rc}")
 
-        # Move file to processed folder
         os.makedirs(processed_folder, exist_ok=True)
         os.rename(image_path, os.path.join(processed_folder, os.path.basename(image_path)))
 
@@ -87,18 +78,45 @@ def main():
 
     client.loop_start()
 
+    # Initialize camera once
+    cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    time.sleep(0.1)  # Allow camera to warm up
+
     while True:
         try:
+            loop_start_time = time.time()
+
             image_number = get_next_image_number(image_counter_file)
             image_path = os.path.join(image_directory, f"image_{image_number:04d}.jpg")
 
-            capture_image(image_path)
-            publish_image(client, image_path)
+            # 1. Capture image
+            t1 = time.time()
+            ret, frame = cap.read()
+            if ret:
+                cv2.imwrite(image_path, frame)
+                logging.info(f"Image captured and saved to {image_path}")
+            else:
+                logging.error("Failed to read from camera")
+            t2 = time.time()
+            logging.info(f"Capture time: {t2 - t1:.4f} seconds")
 
+            # 2. Publish image
+            t3 = time.time()
+            publish_image(client, image_path)
+            t4 = time.time()
+            logging.info(f"Publish + Move time: {t4 - t3:.4f} seconds")
+
+            # 3. Update counter
             image_number += 1
             update_image_number(image_counter_file, image_number)
 
-            time.sleep(1)
+            loop_end_time = time.time()
+            logging.info(f"Total loop time: {loop_end_time - loop_start_time:.4f} seconds")
+
+            time.sleep(0.1)
+
         except KeyboardInterrupt:
             logging.info("Keyboard interrupt detected. Stopping the script.")
             break
@@ -107,6 +125,7 @@ def main():
             print(f"Unexpected error occurred: {e}")
             time.sleep(60)
 
+    cap.release()
     client.loop_stop()
     client.disconnect()
 
