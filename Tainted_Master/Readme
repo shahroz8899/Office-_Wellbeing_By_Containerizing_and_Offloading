@@ -1,1 +1,143 @@
-!1st commit.
+
+
+---
+
+```markdown
+# 🧠 Smart Posture Analyzer with Tainted Master / K3s-Based Offloading
+
+This project implements an intelligent posture analysis system that processes images received over MQTT using MediaPipe and offloads work to Kubernetes (K3s) worker nodes when CPU usage is high. It logs analysis results to a PostgreSQL (Supabase) database and stores annotated images locally.
+
+---
+
+## 📸 Features
+
+- 📡 **Receives images over MQTT** from multiple Raspberry Pis.
+- 🧍 **Analyzes posture using MediaPipe** to determine neck and body angles.
+- 💾 **Saves annotated images** and logs data to PostgreSQL.
+- ⚙️ **Auto offloads analysis to K3s worker nodes** if CPU usage > 60%.
+- 🐳 **Docker-based deployment** with multi-architecture support.
+- 🧪 **Kubernetes Job orchestration** with node selection logic.
+- 🔌 **One-button start/stop** using Python scripts.
+
+---
+
+## 🗃️ Folder Structure
+
+```
+
+.
+├── build\_and\_push.py
+├── cpu\_monitor\_and\_offload.py
+├── mqtt\_posture\_analyzer\_with\_db.py
+├── stop.py
+├── Dockerfile
+├── docker-compose.yml
+├── posture-job.yaml
+├── patched-job.yaml
+├── requirements.txt
+└── analyzed\_images/  # Stores results
+
+````
+
+---
+
+## 📂 File Descriptions
+
+| File | Purpose |
+|------|---------|
+| `build_and_push.py` | Builds Docker image and pushes to Docker Hub, then starts CPU monitor and ESC listener. |
+| `cpu_monitor_and_offload.py` | Checks CPU load; launches Kubernetes Job on available worker if master is busy. |
+| `mqtt_posture_analyzer_with_db.py` | Main analyzer: subscribes to MQTT, processes images, logs results to Supabase. |
+| `stop.py` | Stops all Docker containers, K8s jobs, and background monitoring safely. |
+| `Dockerfile` | Defines the posture analyzer container environment. |
+| `docker-compose.yml` | Optionally runs the analyzer locally with Docker Compose. |
+| `posture-job.yaml` | Base Kubernetes Job template used to run the analyzer on worker nodes. |
+| `patched-job.yaml` | Auto-generated patched job file targeting a specific worker node. |
+| `requirements.txt` | Required Python libraries (OpenCV, MediaPipe, MQTT, etc.). |
+
+---
+
+## 🧠 Posture Analysis Logic
+
+- Uses MediaPipe’s full-body pose landmarks.
+- Calculates:
+  - **Neck angle** between shoulder and ear.
+  - **Body angle** between hip and shoulder.
+- Labels:
+  - ✅ Good posture: `Neck 10°–50°, Body < 20°`
+  - ❌ Bad posture or partial detection
+- Annotates and saves each image with angle info.
+- Logs analysis to `posture_log` table in Supabase PostgreSQL.
+
+---
+
+## 🛠️ Setup Instructions
+
+1. **Install Python dependencies:**
+   ```bash
+   pip install -r requirements.txt
+````
+
+2. **Set required environment variables:**
+
+   ```bash
+   export SUPABASE_HOST=...
+   export SUPABASE_DB=...
+   export SUPABASE_USER=...
+   export SUPABASE_PASSWORD=...
+   ```
+
+3. **Run the project:**
+
+   ```bash
+   python3 build_and_push.py
+   ```
+
+4. **Stop everything:**
+
+   ```bash
+   python3 stop.py
+   ```
+
+---
+
+## ☁️ Docker & Kubernetes
+
+* Docker image is built and pushed to:
+
+  ```
+  shahroz90/posture-analyzer:latest
+  ```
+* Kubernetes Job uses label selector `role=worker` and selects worker nodes with CPU usage < 60%.
+* Patched jobs are written to `patched-job.yaml` and applied dynamically.
+
+---
+
+## 🗃️ Database Schema
+
+**Table:** `posture_log`
+
+| Column               | Description                               |
+| -------------------- | ----------------------------------------- |
+| `pi_id`              | Raspberry Pi ID (e.g., pi1, pi2)          |
+| `filename`           | Name of saved annotated image             |
+| `received_time`      | When the image was received               |
+| `analyzed_time`      | When the image was analyzed               |
+| `neck_angle`         | Computed neck angle                       |
+| `body_angle`         | Computed body angle                       |
+| `posture_status`     | Good / Bad / Partial / No Landmarks       |
+| `landmarks_detected` | Boolean flag                              |
+| `processed_by`       | Hostname of node that processed the image |
+
+---
+
+## 📬 Contact
+
+Built by **Muhammad Shahroz Abbas**
+
+
+---
+
+```
+
+
