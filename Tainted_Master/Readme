@@ -2,7 +2,6 @@
 
 ---
 
-```markdown
 # 🧠 Smart Posture Analyzer with Tainted Master / K3s-Based Offloading
 
 This project implements an intelligent posture analysis system that processes images received over MQTT using MediaPipe and offloads work to Kubernetes (K3s) worker nodes when CPU usage is high. It logs analysis results to a PostgreSQL (Supabase) database and stores annotated images locally.
@@ -138,6 +137,5 @@ Built by **Muhammad Shahroz Abbas**
 
 ---
 
-```
 
 
