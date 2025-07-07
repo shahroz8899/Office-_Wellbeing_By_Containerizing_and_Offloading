@@ -4,6 +4,41 @@ Always run inside a virtual environment.
 
 This project implements a real-time posture analysis system using containerized image processing, MQTT messaging, and Kubernetes-based offloading. It dynamically runs image processing either locally (on the master node) or remotely (on a worker node), based on CPU load.
 
+
+                        +--------------------------+
+                        |      Supabase DB         |
+                        |  (Posture Metadata Log)  |
+                        +------------^-------------+
+                                     |
+                        +------------|-------------+
+                        |         Master Node       |
+                        | (Jetson Orin / NUC etc.)  |
+                        |                            |
+     MQTT ⬅-------------+ Receives Images           |
+                        | - Analyzes Locally (if CPU < 60%) 
+                        | - Offloads to Worker (if CPU ≥ 60%)
+                        +------------+-------------+
+                                     |
+           Offloading via K3s Job    |
+                            +--------v---------+
+                            |   Worker Node    |
+                            | (e.g., AGX)      |
+                            | - Pulls Container|
+                            | - Analyzes Image |
+                            | - Logs Results   |
+                            +------------------+
+
+                        +----------------------------+
+                        | Raspberry Pi Nodes (Pi1/2) |
+                        | - Capture Image Streams    |
+                        | - Publish via MQTT         |
+                        | - Host Grafana Dashboards  |
+                        +----------------------------+
+
+
+
+
+
 ## 📦 Components
 
 - **MQTT Publisher (Raspberry Pi):** Publishes base64-encoded images from cameras.
