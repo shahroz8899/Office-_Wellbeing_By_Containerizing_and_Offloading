@@ -60,6 +60,66 @@ This project implements a real-time posture analysis system using containerized 
 - 🔁 **Kubernetes Offloading:** Worker pulls image from Docker Hub and runs job.
 - 📁 **Organized Folder Structure:** Images saved under folders like `analyzed_images_from_pi1/`.
 
+
+**Core Components**
+**A. MQTT-Based Image Publishing**
+Each Pi publishes base64-encoded images under topic images/<pi_id>
+
+Broker IP must be accessible to master node
+
+**B. Posture Analyzer**
+Script: mqtt_posture_analyzer_with_db.py
+
+Uses MediaPipe for human pose detection
+
+Calculates:
+
+**Neck angle
+
+Torso angle**
+
+Posture status (Good, Bad, or detection errors)
+
+Saves annotated image
+
+Logs metadata to Supabase
+
+**C. CPU Monitoring and Orchestration**
+Script: cpu_monitor_and_offload.py
+
+Polls system CPU usage every 3 seconds
+
+**If usage ≥ 60%**:
+
+Stops master container
+
+Launches Kubernetes Job on least loaded available worker (with role=worker)
+
+If usage drops below 50%:
+
+Terminates remote job
+
+Resumes local processing
+
+**D. Kubernetes Offloading**
+Kubernetes job file: posture-job.yaml
+
+Node-specific patch applied dynamically via patched-job.yaml
+
+E. Docker Infrastructure
+Multi-architecture image built via build_and_push.py
+
+Docker image: shahroz90/posture-analyzer
+
+Compose file: docker-compose.yml
+
+Cleanup script: stop.py
+
+
+
+
+
+
 ## 🛠️ Setup
 
 ### 1. Clone Repository
