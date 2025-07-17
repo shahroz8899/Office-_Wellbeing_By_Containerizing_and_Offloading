@@ -1,62 +1,84 @@
 import subprocess
 import time
 
-def get_available_worker():
+def get_underloaded_workers(threshold=60):
     try:
-        # Use actual label: role=worker
         label_output = subprocess.check_output(
-            "kubectl get nodes -l role=worker --no-headers",
-            shell=True
+            "kubectl get nodes -l role=worker --no-headers", shell=True
         ).decode()
-        lines = label_output.strip().split("\n")
-        worker_nodes = [line.split()[0] for line in lines if line.strip()]
+        worker_nodes = [line.split()[0] for line in label_output.strip().splitlines() if line]
 
         usage_output = subprocess.check_output(
-            "kubectl top nodes --no-headers",
-            shell=True
+            "kubectl top nodes --no-headers", shell=True
         ).decode()
         usage_data = {
-            line.split()[0]: int(line.split()[2].replace('%', ''))
-            for line in usage_output.strip().split("\n")
-            if line.strip()
+            parts[0]: int(parts[2].rstrip('%'))
+            for parts in (line.split() for line in usage_output.strip().splitlines())
         }
 
-        for node in worker_nodes:
-            if usage_data.get(node, 100) < 60:
-                return node
+        return [n for n in worker_nodes if usage_data.get(n, 100) < threshold]
     except Exception as e:
-        print(f"⚠️ Failed to get available worker node: {e}")
-    return None
+        print(f"⚠️ Failed to get worker usage: {e}")
+        return []
 
+def get_cpu_usage(node_name):
+    try:
+        output = subprocess.check_output("kubectl top nodes --no-headers", shell=True).decode()
+        for line in output.strip().splitlines():
+            parts = line.split()
+            if parts[0] == node_name:
+                return int(parts[2].rstrip('%'))
+    except Exception as e:
+        print(f"⚠️ Could not read CPU for {node_name}: {e}")
+    return 100  # Default to overloaded
 
-def launch_job_on_worker(worker_name):
+def launch_job_on_node(node_name):
     job_name = f"posture-analyzer-{int(time.time())}"
-    print(f"🚀 Launching job {job_name} on worker: {worker_name}")
+    print(f"🚀 Launching job {job_name} on {node_name}")
 
-    # Read the base job YAML
-    with open("posture-job.yaml", "r") as f:
-        job_yaml = f.read()
+    with open("posture-job.yaml") as f:
+        template = f.read()
 
-    # Patch job name and nodeName
-    job_yaml = job_yaml.replace("name: posture-analyzer", f"name: {job_name}")
-    job_yaml = job_yaml.replace(
-        "restartPolicy: Never",
-        f"restartPolicy: Never\n      nodeName: {worker_name}"
+    patched = (
+        template
+        .replace("name: posture-analyzer", f"name: {job_name}")
+        .replace(
+            "restartPolicy: Never",
+            f"restartPolicy: Never\n      nodeName: {node_name}"
+        )
     )
 
-    # Write to a temporary YAML file
     with open("patched-job.yaml", "w") as f:
-        f.write(job_yaml)
+        f.write(patched)
 
-    # Apply the job
     subprocess.run("kubectl apply -f patched-job.yaml", shell=True)
 
-# Infinite loop to continuously offload
+
+# 🌐 Scheduler loop
+current_node = None
+job_launched = False
+
 while True:
-    worker = get_available_worker()
-    if worker:
-        launch_job_on_worker(worker)
+    if current_node is None:
+        # Pick a new underloaded node
+        underloaded = get_underloaded_workers()
+        if underloaded:
+            current_node = underloaded[0]
+            launch_job_on_node(current_node)
+            job_launched = True
+        else:
+            print("⚠️ No underloaded node found. Retrying...")
     else:
-        print("⚠️ No available worker node found. Will retry.")
-    
-    time.sleep(5)  # Pause to avoid spamming jobs too frequently
+        usage = get_cpu_usage(current_node)
+        if usage >= 60:
+            print(f"⚠️ Node {current_node} is now overloaded ({usage}%). Releasing...")
+            current_node = None
+            job_launched = False
+        elif not job_launched:
+            launch_job_on_node(current_node)
+            job_launched = True
+        else:
+            print(f"✅ Waiting… Node {current_node} still under {usage}%. No new job launched.")
+
+    time.sleep(1)
+
