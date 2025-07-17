@@ -26,7 +26,7 @@ def stop_everything():
     run_command("docker-compose down")
 
     print("🧼 Deleting Kubernetes job...")
-    run_command("kubectl delete job posture-analyzer --ignore-not-found")
+    run_command("kubectl get jobs --no-headers | awk '/^posture-analyzer-/ {print $1}' | xargs -r kubectl delete job")
 
     kill_cpu_monitor()
     print("✅ All services and background monitors stopped.")
