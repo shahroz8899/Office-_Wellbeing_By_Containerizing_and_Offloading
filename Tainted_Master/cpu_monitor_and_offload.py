@@ -1,7 +1,7 @@
 import subprocess
 import time
 
-def get_underloaded_workers(threshold=60):
+def get_available_worker_with_max_cpu(threshold=60):
     try:
         label_output = subprocess.check_output(
             "kubectl get nodes -l role=worker --no-headers", shell=True
@@ -11,15 +11,29 @@ def get_underloaded_workers(threshold=60):
         usage_output = subprocess.check_output(
             "kubectl top nodes --no-headers", shell=True
         ).decode()
-        usage_data = {
-            parts[0]: int(parts[2].rstrip('%'))
-            for parts in (line.split() for line in usage_output.strip().splitlines())
-        }
 
-        return [n for n in worker_nodes if usage_data.get(n, 100) < threshold]
+        usage_data = {}
+        for parts in (line.split() for line in usage_output.strip().splitlines()):
+            node = parts[0]
+            cpu_percent = parts[2].rstrip('%')
+            try:
+                usage_data[node] = int(cpu_percent)
+            except ValueError:
+                # Skip node with <unknown>
+                continue
+
+        # Filter and sort by lowest CPU usage
+        underloaded = [(n, usage_data[n]) for n in worker_nodes if n in usage_data and usage_data[n] < threshold]
+
+        if not underloaded:
+            return None
+
+        # Return node with most available CPU (lowest usage)
+        return sorted(underloaded, key=lambda x: x[1])[0][0]
+
     except Exception as e:
         print(f"⚠️ Failed to get worker usage: {e}")
-        return []
+        return None
 
 def get_cpu_usage(node_name):
     try:
@@ -60,10 +74,10 @@ job_launched = False
 
 while True:
     if current_node is None:
-        # Pick a new underloaded node
-        underloaded = get_underloaded_workers()
-        if underloaded:
-            current_node = underloaded[0]
+        # Pick best available node (lowest CPU%)
+        selected = get_available_worker_with_max_cpu()
+        if selected:
+            current_node = selected
             launch_job_on_node(current_node)
             job_launched = True
         else:
@@ -81,4 +95,3 @@ while True:
             print(f"✅ Waiting… Node {current_node} still under {usage}%. No new job launched.")
 
     time.sleep(1)
-
