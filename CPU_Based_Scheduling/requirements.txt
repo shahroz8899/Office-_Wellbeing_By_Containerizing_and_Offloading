@@ -1,0 +1,8 @@
+opencv-python
+mediapipe
+paho-mqtt
+numpy
+matplotlib
+psycopg2-binary
+psutil
+

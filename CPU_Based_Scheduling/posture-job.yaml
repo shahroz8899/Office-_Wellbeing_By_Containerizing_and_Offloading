@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-analyzer
+spec:
+  template:
+    spec:
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+          - 1.1.1.1
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer
+        command: ["python3", "mqtt_posture_analyzer_with_db.py"]
+        env:
+        - name: SUPABASE_HOST
+          value: "aws-0-eu-north-1.pooler.supabase.com"
+        - name: SUPABASE_DB
+          value: "postgres"
+        - name: SUPABASE_USER
+          value: "postgres.yvqqpgixkwsiychmwvkc"
+        - name: SUPABASE_PASSWORD
+          value: "University12@"
+        - name: SUPABASE_PORT
+          value: "5432"
+        - name: SUPABASE_SSL
+          value: "require"
+        volumeMounts:
+        - mountPath: /app/analyzed_images
+          name: images-vol
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /home/agx/analyzed_images
+      restartPolicy: Never
+
