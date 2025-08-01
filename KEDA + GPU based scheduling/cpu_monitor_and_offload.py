@@ -22,7 +22,7 @@ GPU_QUERIES = {
     }
 }
 
-GPU_THRESHOLD = 50
+GPU_THRESHOLD = 100
 
 def query_prometheus(metric_name, instance):
     query = f'{metric_name}{{instance="{instance}"}}'

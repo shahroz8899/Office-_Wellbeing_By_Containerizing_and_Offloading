@@ -46,6 +46,15 @@ spec:
           hostPath:
             path: /home/agx/analyzed_images
         restartPolicy: Never
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: gpu-node
+                  operator: In
+                  values:
+                  - agx-desktop
 
   triggers:
   - type: external

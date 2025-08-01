@@ -5,6 +5,7 @@ from urllib.parse import quote
 
 PROMETHEUS_URL = "http://localhost:9090"
 QUERY_ENDPOINT = "/api/v1/query"
+
 GPU_QUERIES = {
     "agx-desktop": {
         "instance": "192.168.1.135:9100",
@@ -47,6 +48,11 @@ def patch_scaledjob_to_node(node):
     print(f"✏️ Patching ScaledJob with affinity to {node}...")
     subprocess.run(f"python3 patch_scaledjob.py {node}", shell=True)
 
+def delete_running_pod():
+    print("🛑 Deleting running posture-analyzer pods...")
+    delete_cmd = "kubectl get pods -l scaledjob.keda.sh/name=posture-analyzer-scaledjob --no-headers | awk '{print $1}' | xargs -r kubectl delete pod"
+    subprocess.run(delete_cmd, shell=True)
+
 if __name__ == "__main__":
     print("🔁 Starting GPU watcher loop to update nodeAffinity dynamically...\n")
 
@@ -55,6 +61,8 @@ if __name__ == "__main__":
             best_node = choose_best_node()
             if best_node and best_node != last_node_used:
                 patch_scaledjob_to_node(best_node)
+                subprocess.run("kubectl apply -f patched-job.yaml", shell=True)
+                delete_running_pod()
                 last_node_used = best_node
             else:
                 print(f"✅ No change needed. Continuing with `{last_node_used}`...\n")
