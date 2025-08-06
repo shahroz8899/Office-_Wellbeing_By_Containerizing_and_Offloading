@@ -1,10 +1,10 @@
 import requests
+import random
 from urllib.parse import quote
 
 PROMETHEUS_URL = "http://localhost:9090"
 QUERY_ENDPOINT = "/api/v1/query"
 
-# GPU Prometheus metrics per node
 GPU_QUERIES = {
     "agx-desktop": {
         "instance": "192.168.1.135:9100",
@@ -36,11 +36,15 @@ def choose_best_node():
         if usage is not None:
             usage_by_node[node] = usage
             print(f"📊 {node} GPU Usage: {usage:.2f}%")
+
     if not usage_by_node:
         return None
-    best_node = min(usage_by_node, key=usage_by_node.get)
-    best_usage = usage_by_node[best_node]
-    print(f"🧠 Selected `{best_node}` because it had the lowest GPU usage ({best_usage:.2f}%)")
+
+    # 🔀 Randomize tie-breaks
+    items = list(usage_by_node.items())
+    random.shuffle(items)
+    best_node = min(items, key=lambda x: x[1])[0]
+    print(f"🧠 Selected `{best_node}` as best node (after random tie-break if needed)")
     return best_node
 
 def patch_scaledjob_template(target_node):

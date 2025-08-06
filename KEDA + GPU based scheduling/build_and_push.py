@@ -32,18 +32,20 @@ if __name__ == "__main__":
     print("🛡️ Tainting master node (nuc) to repel posture jobs...")
     run_command("kubectl taint nodes nuc node-role.kubernetes.io/master=:NoSchedule --overwrite", ignore_errors=True)
 
-    # ✅ Patch and apply the ScaledJob
-    print("✏️ Patching ScaledJob with optimal nodeAffinity...")
+    # Launch CPU monitor and ESC listener
+    
+      # ✅ Patch and apply the ScaledJob
+    #print("✏️ Patching ScaledJob with optimal nodeAffinity...")
     run_command("python3 patch_scaledjob.py")
 
-    print("📦 Applying patched KEDA ScaledJob...")
-    run_command("kubectl delete scaledjob posture-analyzer-scaledjob", ignore_errors=True)
+    #print("📦 Applying patched KEDA ScaledJob...")
+    #run_command("kubectl delete scaledjob posture-analyzer-scaledjob", ignore_errors=True)
     run_command("kubectl apply -f patched-job.yaml")
     
-    gpu_watcher = subprocess.Popen(["python3", "gpu_affinity_watcher.py"])
-
-    # Launch CPU monitor and ESC listener
+    #gpu_watcher = subprocess.Popen(["python3", "gpu_affinity_watcher.py"])
+    
     cpu_monitor = subprocess.Popen(["python3", "cpu_monitor_and_offload.py"])
+    
     esc_listener = subprocess.Popen(["python3", "stop.py"])
 
     try:

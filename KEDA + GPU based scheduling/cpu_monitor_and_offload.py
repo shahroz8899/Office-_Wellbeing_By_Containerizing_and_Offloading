@@ -89,11 +89,25 @@ def launch_job_on_node(node_name):
 class ExternalScalerServicer(externalscaler_pb2_grpc.ExternalScalerServicer):
     def IsActive(self, request, context):
         print("🔄 KEDA called IsActive()")
-        for config in GPU_QUERIES.values():
-            usage = query_prometheus(config["metric"], config["instance"])
-            if usage is not None and usage < GPU_THRESHOLD:
-                print("🚀 Returning Active = True")
-                return externalscaler_pb2.IsActiveResponse(result=True)
+
+        try:
+            for config in GPU_QUERIES.values():
+                usage = query_prometheus(config["metric"], config["instance"])
+                if usage is not None and usage < GPU_THRESHOLD:
+                    print("🚀 Returning Active = True")
+
+                    # 🔁 Attempt to launch gpu_affinity_watcher.py every time
+                    try:
+                        print("🚀 Launching gpu_affinity_watcher.py from IsActive()...")
+                        subprocess.Popen(["python3", "gpu_affinity_watcher.py"])
+                    except Exception as e:
+                        print(f"❌ Failed to launch gpu_affinity_watcher.py: {e}")
+
+                    return externalscaler_pb2.IsActiveResponse(result=True)
+
+        except Exception as e:
+            print(f"❌ IsActive failed during GPU check: {e}")
+
         print("❌ Returning Active = False")
         return externalscaler_pb2.IsActiveResponse(result=False)
 
