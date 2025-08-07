@@ -95,8 +95,7 @@ This will:
 - Patch `posture-job.yaml` with best nodeAffinity
 - Deploy the ScaledJob
 - Start:
-  - GPU watcher
-  - CPU monitor
+  - CPU monitor script
   - gRPC server for KEDA
 
 ### ⛔ Stop Everything
