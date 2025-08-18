@@ -1,0 +1,13 @@
+# Core posture analysis requirements
+opencv-python
+mediapipe
+paho-mqtt
+numpy
+matplotlib
+psycopg2-binary
+psutil
+prometheus-api-client
+
+# For ESC key shutdown feature
+keyboard
+

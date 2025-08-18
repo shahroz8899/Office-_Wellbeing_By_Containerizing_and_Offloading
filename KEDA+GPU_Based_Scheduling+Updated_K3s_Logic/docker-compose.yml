@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  pi1:
+    image: shahroz90/posture-analyzer-pi1:latest
+    container_name: pi1-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - SUPABASE_HOST=aws-0-eu-north-1.pooler.supabase.com
+      - SUPABASE_DB=postgres
+      - SUPABASE_USER=postgres.yvqqpgixkwsiychmwvkc
+      - SUPABASE_PASSWORD=University12@
+      - SUPABASE_PORT=6543
+      - SUPABASE_SSL=require
+    restart: always
+
+  pi2:
+    image: shahroz90/posture-analyzer-pi2:latest
+    container_name: pi2-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - SUPABASE_HOST=aws-0-eu-north-1.pooler.supabase.com
+      - SUPABASE_DB=postgres
+      - SUPABASE_USER=postgres.yvqqpgixkwsiychmwvkc
+      - SUPABASE_PASSWORD=University12@
+      - SUPABASE_PORT=6543
+      - SUPABASE_SSL=require
+    restart: always
+
+  pi3:
+    image: shahroz90/posture-analyzer-pi3:latest
+    container_name: pi3-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - SUPABASE_HOST=aws-0-eu-north-1.pooler.supabase.com
+      - SUPABASE_DB=postgres
+      - SUPABASE_USER=postgres.yvqqpgixkwsiychmwvkc
+      - SUPABASE_PASSWORD=University12@
+      - SUPABASE_PORT=6543
+      - SUPABASE_SSL=require
+    restart: always
+

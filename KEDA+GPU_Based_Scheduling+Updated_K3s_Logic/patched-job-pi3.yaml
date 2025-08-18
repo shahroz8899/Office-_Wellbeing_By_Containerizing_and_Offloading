@@ -1,0 +1,63 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name: posture-analyzer-scaledjob-pi3
+spec:
+  pollingInterval: 10                    # Check every 5 seconds
+  maxReplicaCount: 1                   # Only 1 posture job at a time
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+
+  jobTargetRef:
+    template:
+      spec:
+        tolerations:
+        - key: "image-offload"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        dnsPolicy: "None"
+        dnsConfig:
+          nameservers:
+            - 8.8.8.8
+            - 1.1.1.1
+        containers:
+        - name: analyzer
+          image: shahroz90/posture-analyzer-pi3
+          command: ["python3", "Images_From_Pi3.py"]
+          env:
+          - name: SUPABASE_HOST
+            value: "aws-0-eu-north-1.pooler.supabase.com"
+          - name: SUPABASE_DB
+            value: "postgres"
+          - name: SUPABASE_USER
+            value: "postgres.yvqqpgixkwsiychmwvkc"
+          - name: SUPABASE_PASSWORD
+            value: "University12@"
+          - name: SUPABASE_PORT
+            value: "6543"
+          - name: SUPABASE_SSL
+            value: "require"
+          volumeMounts:
+          - mountPath: /app/analyzed_images
+            name: images-vol
+        volumes:
+        - name: images-vol
+          hostPath:
+            path: /home/agx/analyzed_images
+        restartPolicy: Never
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: gpu-node
+                  operator: In
+                  values:
+                  - orin-desktop
+
+  triggers:
+  - type: external
+    metadata:
+      scalerAddress: 192.168.1.176:50051
+
