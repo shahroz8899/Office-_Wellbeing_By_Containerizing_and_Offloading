@@ -50,7 +50,7 @@ docker run --rm -it \
   -e SUPABASE_HOST=aws-0-eu-north-1.pooler.supabase.com \
   -e SUPABASE_DB=postgres \
   -e SUPABASE_USER=postgres.yvqqpgixkwsiychmwvkc \
-  -e SUPABASE_PASSWORD=University12@ \
+  -e SUPABASE_PASSWORD=######\
   -e SUPABASE_PORT=5432 \
   -e SUPABASE_SSL=require \
   -v ~/analyzed_images:/app/analyzed_images \
