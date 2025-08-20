@@ -54,7 +54,7 @@ spec:
                 - key: gpu-node
                   operator: In
                   values:
-                  - orin-desktop
+                  - agx-desktop
 
   triggers:
   - type: external
