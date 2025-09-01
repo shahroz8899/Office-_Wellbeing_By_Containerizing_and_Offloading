@@ -5,12 +5,12 @@ import time
 import base64
 import cv2
 import datetime
-import random
 
 # Configuration
 broker = '192.168.1.79'
 port = 1883
 topic = 'images/pi1'
+image_counter_file = 'image_counter.txt'
 image_directory = './'
 processed_folder = 'received_images'
 
@@ -48,10 +48,19 @@ def publish_image(client, image_path):
     except Exception as e:
         logging.error(f"Failed to publish image: {e}")
 
-# Generate random image filename
-def generate_random_filename():
-    rand_num = random.randint(1000, 9999)
-    return f"pi1_{rand_num}.jpg"
+# Get next image number
+def get_next_image_number(counter_file):
+    try:
+        with open(counter_file, 'r') as file:
+            number = int(file.read().strip())
+    except FileNotFoundError:
+        number = 1
+    return number
+
+# Update image number
+def update_image_number(counter_file, number):
+    with open(counter_file, 'w') as file:
+        file.write(str(number))
 
 # Main function
 def main():
@@ -79,8 +88,8 @@ def main():
         try:
             loop_start_time = time.time()
 
-            image_filename = generate_random_filename()
-            image_path = os.path.join(image_directory, image_filename)
+            image_number = get_next_image_number(image_counter_file)
+            image_path = os.path.join(image_directory, f"image_{image_number:04d}.jpg")
 
             # 1. Capture image
             t1 = time.time()
@@ -99,10 +108,14 @@ def main():
             t4 = time.time()
             logging.info(f"Publish + Move time: {t4 - t3:.4f} seconds")
 
+            # 3. Update counter
+            image_number += 1
+            update_image_number(image_counter_file, image_number)
+
             loop_end_time = time.time()
             logging.info(f"Total loop time: {loop_end_time - loop_start_time:.4f} seconds")
 
-            time.sleep(0.1)
+            time.sleep(0.5)
 
         except KeyboardInterrupt:
             logging.info("Keyboard interrupt detected. Stopping the script.")
@@ -118,4 +131,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+     
