@@ -115,7 +115,7 @@ def main():
             loop_end_time = time.time()
             logging.info(f"Total loop time: {loop_end_time - loop_start_time:.4f} seconds")
 
-            time.sleep(0.1)
+            time.sleep(0.5)
 
         except KeyboardInterrupt:
             logging.info("Keyboard interrupt detected. Stopping the script.")
@@ -131,3 +131,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+     
