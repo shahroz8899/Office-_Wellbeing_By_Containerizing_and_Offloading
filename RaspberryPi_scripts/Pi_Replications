@@ -1,0 +1,150 @@
+import os
+import logging
+import paho.mqtt.client as mqtt
+import time
+import base64
+import cv2
+
+# ===== Configuration =====
+broker = '192.168.1.79'
+port = 1883
+TOPIC_BASE = 'images/pi2'
+
+# Total topics per image (including the base one): pi2, pi2_1 ... pi2_9 -> 10 total
+REPLICAS = 10
+
+# Save to disk only at the end (toggle off later if you want no saving at all)
+SAVE_TO_DISK = True
+
+image_counter_file = 'image_counter.txt'
+processed_folder = 'received_images'
+
+# ===== Logging =====
+logging.basicConfig(
+    filename='image_capture_mqtt.log',
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s:%(message)s'
+)
+
+# ===== MQTT Callbacks =====
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        logging.info(f"Connected to broker {broker}:{port} with result code {rc}")
+        print(f"Connected to broker {broker}:{port} with result code {rc}")
+    else:
+        logging.error(f"Failed to connect to broker {broker}:{port} with result code {rc}")
+        print(f"Failed to connect to broker {broker}:{port} with result code {rc}")
+
+def on_publish(client, userdata, mid):
+    logging.info(f"Message published with mid {mid}")
+
+# ===== Topic builder =====
+def build_topics(base: str, replicas: int):
+    if replicas <= 0:
+        return []
+    return [base] + [f"{base}_{i}" for i in range(1, replicas)]
+
+# ===== Counter utilities =====
+def get_next_image_number(counter_file):
+    try:
+        with open(counter_file, 'r') as file:
+            return int(file.read().strip())
+    except FileNotFoundError:
+        return 1
+
+def update_image_number(counter_file, number):
+    with open(counter_file, 'w') as file:
+        file.write(str(number))
+
+# ===== Main =====
+def main():
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_publish = on_publish
+
+    logging.info(f"Connecting to broker {broker}:{port}")
+    try:
+        client.connect(broker, port, 60)
+    except Exception as e:
+        logging.error(f"Connection failed: {e}")
+        print(f"Connection failed: {e}")
+        return
+
+    client.loop_start()
+
+    # Initialize camera
+    cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    time.sleep(0.1)  # warmup
+
+    try:
+        while True:
+            loop_t0 = time.time()
+
+            image_number = get_next_image_number(image_counter_file)
+            filename = f"image_{image_number:04d}.jpg"  # used only if we save at the end
+
+            # 1) Capture once
+            t1 = time.time()
+            ret, frame = cap.read()
+            if not ret:
+                logging.error("Failed to read from camera")
+                time.sleep(0.5)
+                continue
+            t2 = time.time()
+            logging.info(f"Capture time: {t2 - t1:.4f}s")
+
+            # 2) Encode once (in-memory)
+            t3 = time.time()
+            ok, buf = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 95])
+            if not ok:
+                logging.error("JPEG encoding failed")
+                time.sleep(0.5)
+                continue
+            jpeg_bytes = buf.tobytes()
+            payload_b64 = base64.b64encode(jpeg_bytes).decode()
+            t4 = time.time()
+            logging.info(f"Encode + B64 time: {t4 - t3:.4f}s")
+
+            # 3) Publish to a list of topics
+            topics = build_topics(TOPIC_BASE, REPLICAS)
+            pub_t0 = time.time()
+            for t in topics:
+                result = client.publish(t, payload_b64, qos=1)
+                if result.rc == mqtt.MQTT_ERR_SUCCESS:
+                    logging.info(f"Published {filename} to '{t}' (mid={result.mid})")
+                else:
+                    logging.error(f"Publish failed to '{t}' rc={result.rc}")
+            pub_t1 = time.time()
+            logging.info(f"Publish (all topics) time: {pub_t1 - pub_t0:.4f}s")
+
+            # 4) Save once at the end (optional)
+            if SAVE_TO_DISK:
+                try:
+                    os.makedirs(processed_folder, exist_ok=True)
+                    out_path = os.path.join(processed_folder, filename)
+                    with open(out_path, 'wb') as f:
+                        f.write(jpeg_bytes)
+                    logging.info(f"Saved image once at end: {out_path}")
+                except Exception as e:
+                    logging.error(f"Failed to save image at end: {e}")
+
+            # 5) Update counter (we processed this capture regardless of save)
+            update_image_number(image_counter_file, image_number + 1)
+
+            logging.info(f"Total loop time: {time.time() - loop_t0:.4f}s")
+            time.sleep(0.5)
+
+    except KeyboardInterrupt:
+        logging.info("Keyboard interrupt detected. Stopping the script.")
+    except Exception as e:
+        logging.error(f"Unexpected error occurred: {e}")
+        print(f"Unexpected error occurred: {e}")
+    finally:
+        cap.release()
+        client.loop_stop()
+        client.disconnect()
+
+if __name__ == "__main__":
+    main()
