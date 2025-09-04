@@ -1,0 +1,60 @@
+
+---
+
+### **1. KEDA Scraping Loop (Every 30 Seconds)**
+
+* **KEDA polls Prometheus every 30 seconds**
+
+  * It gathers the **GPU usage of all nodes**.
+  * It calculates the **average GPU usage per node**.
+
+---
+
+### **2. KEDA IsActive() Logic**
+
+* If **any node is under the GPU threshold** (e.g., 60%), KEDA returns `Active = True`.
+* If **all nodes are overloaded**, KEDA returns `Active = False` — nothing runs.
+
+---
+
+### **3. If `IsActive() == True`:**
+
+* The script `Gpu_monitor_and_offload.py` is executed by KEDA.
+
+---
+
+### **4. Inside `Gpu_monitor_and_offload.py`:**
+
+#### 📌 First loop (Initial Scheduling):
+
+* When pods are scheduled for the first time:
+
+  * Distribute pods **evenly** across all available nodes.
+  * If pods are not divisible evenly, assign the extra pod(s) to:
+
+    * The node with the **lowest GPU usage**.
+    * If multiple nodes tie, pick **randomly**.
+
+---
+
+#### 🔁 **Subsequent Loops (Every 30s): Rescheduling & Offloading**
+
+* KEDA again **calls IsActive()**, which:
+
+  * Re-checks all nodes' **GPU usage** via Prometheus.
+  * If still `Active = True`, `Gpu_monitor_and_offload.py` runs again.
+
+* Then, for **each overloaded node**:
+
+  * Only **one pod is offloaded per node per loop** (not all at once).
+  * Pod is moved to the node that:
+
+    * Is **under the threshold**, and
+    * Has the **least GPU usage**.
+    * If multiple such nodes exist, pick one **randomly**.
+
+* This logic **repeats every 30 seconds**, gradually balancing load without thrashing.
+
+---
+
+
