@@ -15,46 +15,23 @@
 * If **any node is under the GPU threshold** (e.g., 60%), KEDA returns `Active = True`.
 * If **all nodes are overloaded**, KEDA returns `Active = False` — nothing runs.
 
----
+once KEDA reports **Active = true**:
 
-### **3. If `IsActive() == True`:**
+1. **First-time scheduling (initial placement)**
 
-* The script `Gpu_monitor_and_offload.py` is executed by KEDA.
+* Spread new pods **evenly** across all available nodes.
+* If the count isn’t divisible evenly, place the “extra” pod(s) on the node with the **lowest GPU usage**; if there’s a tie, **pick randomly**.
+  *(This “even spread + lowest-usage remainder with random tie-break” is an explicit new rule you want added for the initial placement.)*
 
----
+2. **Every loop (\~30s): re-check & gently rebalance**
 
-### **4. Inside `Gpu_monitor_and_offload.py`:**
+* KEDA calls `IsActive()` roughly every **30s** (your ScaledJob sets `pollingInterval: 30` and uses the external scaler address), so each loop re-evaluates the cluster. &#x20;
+* The scaler/script will re-pull **30s average GPU usage** per node from Prometheus and decide activity/reshuffles based on those averages. (You’ve standardized on a 30s window via `GPU_AVG_WINDOW`, and `IsActive` uses 30s-avg reads before invoking the offload pass.)  &#x20;
+* If still **Active = true**, look for **overloaded** nodes (≥ offload threshold) and **offload at most one pod per overloaded node per loop** — slow and steady to prevent thrashing. (Your offloader explicitly moves only one pod per overloaded node each pass.) &#x20;
+* Pick a destination node that is **under the threshold** and has the **lowest GPU usage**; if multiple nodes tie at that minimum, **choose randomly** to avoid dog-piling. (Your code already picks the least-busy node; you’ve used random tie-breaks elsewhere, and we’ll keep/apply that tie-break here too.) &#x20;
+* To enact the move: patch the Job/ScaledJob with **nodeAffinity** for the chosen node, then **delete exactly that one pod** so it reschedules onto the target node under the updated affinity. Repeat next loop.  &#x20;
 
-#### 📌 First loop (Initial Scheduling):
+3. **Thresholds & decision points**
 
-* When pods are scheduled for the first time:
-
-  * Distribute pods **evenly** across all available nodes.
-  * If pods are not divisible evenly, assign the extra pod(s) to:
-
-    * The node with the **lowest GPU usage**.
-    * If multiple nodes tie, pick **randomly**.
-
----
-
-#### 🔁 **Subsequent Loops (Every 30s): Rescheduling & Offloading**
-
-* KEDA again **calls IsActive()**, which:
-
-  * Re-checks all nodes' **GPU usage** via Prometheus.
-  * If still `Active = True`, `Gpu_monitor_and_offload.py` runs again.
-
-* Then, for **each overloaded node**:
-
-  * Only **one pod is offloaded per node per loop** (not all at once).
-  * Pod is moved to the node that:
-
-    * Is **under the threshold**, and
-    * Has the **least GPU usage**.
-    * If multiple such nodes exist, pick one **randomly**.
-
-* This logic **repeats every 30 seconds**, gradually balancing load without thrashing.
-
----
-
+* You’re separating thresholds: one for KEDA’s “readiness” (should we allow scheduling at all?) and a lower one for **offloading** decisions. Both are applied to **30s averages**.&#x20;
 
