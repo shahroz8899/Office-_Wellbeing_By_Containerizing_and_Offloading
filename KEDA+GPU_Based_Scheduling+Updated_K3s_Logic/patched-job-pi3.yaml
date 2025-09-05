@@ -3,7 +3,7 @@ kind: ScaledJob
 metadata:
   name: posture-analyzer-scaledjob-pi3
 spec:
-  pollingInterval: 10                    # Check every 5 seconds
+  pollingInterval: 1500                    # Check every 5 seconds
   maxReplicaCount: 1                   # Only 1 posture job at a time
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
@@ -54,7 +54,7 @@ spec:
                 - key: gpu-node
                   operator: In
                   values:
-                  - agx-desktop
+                  - nano1-desktop
 
   triggers:
   - type: external

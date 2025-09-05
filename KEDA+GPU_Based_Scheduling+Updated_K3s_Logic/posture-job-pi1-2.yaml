@@ -1,7 +1,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledJob
 metadata:
-  name: posture-analyzer-scaledjob-pi1
+  name: posture-analyzer-scaledjob-pi1-2
 spec:
   pollingInterval: 1500                    # Check every 5 seconds
   maxReplicaCount: 1                   # Only 1 posture job at a time
@@ -23,8 +23,8 @@ spec:
             - 1.1.1.1
         containers:
         - name: analyzer
-          image: shahroz90/posture-analyzer-pi1
-          command: ["python3", "Images_From_Pi1.py"]
+          image: shahroz90/posture-analyzer-pi1-2
+          command: ["python3", "Images_From_Pi1_2.py"]
           env:
           - name: SUPABASE_HOST
             value: "aws-0-eu-north-1.pooler.supabase.com"

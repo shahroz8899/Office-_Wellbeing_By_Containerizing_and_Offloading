@@ -1,3 +1,4 @@
+# cpu_monitor_and_offload.py
 import subprocess
 import time
 import requests
@@ -10,173 +11,118 @@ import externalscaler_pb2_grpc
 PROMETHEUS_URL = "http://localhost:9090"
 QUERY_ENDPOINT = "/api/v1/query"
 
-# GPU metric configuration per worker node
 GPU_QUERIES = {
-    "agx-desktop": {
-        "instance": "192.168.1.135:9100",
-        "metric": "jetson_gpu_usage_percent"
-    },
-    "orin-desktop": {
-        "instance": "192.168.1.118:9100",
-        "metric": "jetson_orin_gpu_load_percent"
-    }
+    "agx-desktop": {"instance": "192.168.1.135:9100", "metric": "jetson_gpu_usage_percent"},
+    "orin-desktop": {"instance": "192.168.1.118:9100", "metric": "jetson_orin_gpu_load_percent"},
+    "orin1-desktop": {"instance": "192.168.1.77:9100", "metric": "jetson_orin1_gpu_usage_percent"},
+    "orin2-desktop": {"instance": "192.168.1.35:9100", "metric": "jetson_orin2_gpu_usage_percent"},
+    "orin3-desktop": {"instance": "192.168.1.XX:9100", "metric": "jetson_orin3_gpu_usage_percent"},
+    "nano1-desktop": {"instance": "192.168.1.193:9100", "metric": "jetson_nano1_gpu_usage_percent"},
+    "nano2-desktop": {"instance": "192.168.1.42:9100", "metric": "jetson_nano2_gpu_usage_percent"},
 }
 
-GPU_THRESHOLD = 20
+GPU_THRESHOLD = 90  # configurable if you like
 
 def query_prometheus(metric_name, instance):
     query = f'{metric_name}{{instance="{instance}"}}'
-    encoded_query = quote(query)
-    url = f"{PROMETHEUS_URL}{QUERY_ENDPOINT}?query={encoded_query}"
+    url = f"{PROMETHEUS_URL}{QUERY_ENDPOINT}?query={quote(query)}"
     print(f"🔍 Querying Prometheus: {url}")
     try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        data = response.json()
-        results = data.get("data", {}).get("result", [])
-        if results:
-            value = float(results[0]["value"][1])
-            return value
+        resp = requests.get(url, timeout=5)
+        resp.raise_for_status()
+        data = resp.json()
+        res = data.get("data", {}).get("result", [])
+        if res:
+            return float(res[0]["value"][1])
     except Exception as e:
-        print(f"❌ Error querying Prometheus for {instance}: {e}")
+        print(f"❌ Error querying {instance}: {e}")
     return None
 
-def get_available_worker_with_max_gpu():
-    underloaded = []
-    for node, config in GPU_QUERIES.items():
-        usage = query_prometheus(config["metric"], config["instance"])
-        if usage is not None:
-            print(f"🔎 {node} GPU usage: {usage:.2f}%")
-            if usage < GPU_THRESHOLD:
-                underloaded.append((node, usage))
-        else:
-            print(f"⚠️ Unable to fetch GPU for {node}")
-    if not underloaded:
-        return None
-    return sorted(underloaded, key=lambda x: x[1])[0][0]  # least used GPU
-
-def launch_job_on_node(node_name):
-    print(f"🚀 Patching all posture jobs to run on `{node_name}`...")
-
-    subprocess.run(f"python3 patch_scaledjob.py", shell=True)
-
-    print("📦 Applying patched posture-analyzer jobs for pi1/pi2/pi3...")
-    subprocess.run("kubectl apply -f patched-job-pi1.yaml", shell=True)
-    subprocess.run("kubectl apply -f patched-job-pi2.yaml", shell=True)
-    subprocess.run("kubectl apply -f patched-job-pi3.yaml", shell=True)
-
-
-# ---------- gRPC Scaler Implementation ---------- #
-
-def stop_watcher_processes():
-    """Stop any running gpu_affinity_watcher.py processes."""
-    print("🛑 Stopping gpu_affinity_watcher.py processes...")
-    try:
-        # -f matches the full command line; -9 ensures immediate stop if needed.
-        subprocess.run("pkill -f gpu_affinity_watcher.py", shell=True, check=False)
-    except Exception as e:
-        print(f"❌ Failed to stop watcher processes: {e}")
+def stop_balancer():
+    print("🛑 Stopping gpu_balancer.py processes...")
+    subprocess.run("pkill -f gpu_balancer.py", shell=True, check=False)
 
 def delete_all_scaledjob_jobs():
-    """Delete Jobs created by our three ScaledJobs (before pods)."""
-    print("🧼 Deleting all posture-analyzer Jobs (pi1, pi2, pi3)...")
+    print("🧼 Deleting all posture-analyzer Jobs...")
     for sj in [
         "posture-analyzer-scaledjob-pi1",
+        "posture-analyzer-scaledjob-pi1-1",
+        "posture-analyzer-scaledjob-pi1-2",
+        "posture-analyzer-scaledjob-pi1-3",
+        "posture-analyzer-scaledjob-pi1-4",
         "posture-analyzer-scaledjob-pi2",
+        "posture-analyzer-scaledjob-pi2-1",
+        "posture-analyzer-scaledjob-pi2-2",
+        "posture-analyzer-scaledjob-pi2-3",
+        "posture-analyzer-scaledjob-pi2-4",
         "posture-analyzer-scaledjob-pi3",
     ]:
-        # Select Jobs by the ScaledJob label; delete them if present
-        cmd = (
-            f"kubectl get jobs -l scaledjob.keda.sh/name={sj} --no-headers "
-            "| awk '{print $1}' | xargs -r kubectl delete job"
-        )
-        try:
-            subprocess.run(cmd, shell=True, check=False)
-        except Exception as e:
-            print(f"❌ Failed deleting jobs for {sj}: {e}")
+        cmd = f"kubectl get jobs -l scaledjob.keda.sh/name={sj} --no-headers | awk '{{print $1}}' | xargs -r kubectl delete job"
+        subprocess.run(cmd, shell=True, check=False)
 
 def delete_all_scaledjob_pods():
-    """Delete pods created by our three ScaledJobs."""
-    print("🗑️ Deleting all running posture-analyzer pods (pi1, pi2, pi3)...")
+    print("🗑️ Deleting leftover posture-analyzer Pods...")
     for sj in [
         "posture-analyzer-scaledjob-pi1",
+        "posture-analyzer-scaledjob-pi1-1",
+        "posture-analyzer-scaledjob-pi1-2",
+        "posture-analyzer-scaledjob-pi1-3",
+        "posture-analyzer-scaledjob-pi1-4",
         "posture-analyzer-scaledjob-pi2",
+        "posture-analyzer-scaledjob-pi2-1",
+        "posture-analyzer-scaledjob-pi2-2",
+        "posture-analyzer-scaledjob-pi2-3",
+        "posture-analyzer-scaledjob-pi2-4",
         "posture-analyzer-scaledjob-pi3",
     ]:
-        cmd = (
-            f"kubectl get pods -l scaledjob.keda.sh/name={sj} --no-headers "
-            "| awk '{print $1}' | xargs -r kubectl delete pod"
-        )
-        try:
-            subprocess.run(cmd, shell=True, check=False)
-        except Exception as e:
-            print(f"❌ Failed deleting pods for {sj}: {e}")
-
-# --- scaler ---
+        cmd = f"kubectl get pods -l scaledjob.keda.sh/name={sj} --no-headers | awk '{{print $1}}' | xargs -r kubectl delete pod"
+        subprocess.run(cmd, shell=True, check=False)
 
 class ExternalScalerServicer(externalscaler_pb2_grpc.ExternalScalerServicer):
     def IsActive(self, request, context):
         print("🔄 KEDA called IsActive()")
-
         try:
-            # ACTIVE if ANY node is below threshold
-            for config in GPU_QUERIES.values():
-                usage = query_prometheus(config["metric"], config["instance"])
+            for cfg in GPU_QUERIES.values():
+                usage = query_prometheus(cfg["metric"], cfg["instance"])
                 if usage is not None and usage < GPU_THRESHOLD:
-                    print("🚀 Returning Active = True")
-
-                    # (unchanged) attempt to launch watcher each time we report Active
+                    print("🚀 Returning Active=True; ensuring gpu_balancer.py is running...")
+                    # Start (or re-start) the balancer; let multiple calls be idempotent-ish.
                     try:
-                        print("🚀 Launching gpu_affinity_watcher.py from IsActive()...")
-                        subprocess.Popen(["python3", "gpu_affinity_watcher.py"])
+                        subprocess.Popen(["python3", "gpu_balancer.py"])
                     except Exception as e:
-                        print(f"❌ Failed to launch gpu_affinity_watcher.py: {e}")
-
+                        print(f"❌ Failed to launch balancer: {e}")
                     return externalscaler_pb2.IsActiveResponse(result=True)
-
         except Exception as e:
-            print(f"❌ IsActive failed during GPU check: {e}")
+            print(f"❌ IsActive error: {e}")
 
-        # INACTIVE path: stop watcher(s), delete Jobs first, then Pods
-        print("❌ No capacity on any node. Taking cleanup actions...")
-        stop_watcher_processes()
-        delete_all_scaledjob_jobs()   # <- new: ensure Jobs are removed first
-        time.sleep(0.5)               # small gap to let controller start cleanup
-        delete_all_scaledjob_pods()   # then force-delete any leftover Pods
-        print("❌ Returning Active = False")
+        # INACTIVE path: stop balancer and clean up (Jobs first, then Pods)
+        print("❌ No capacity on any node → stopping balancer + cleanup, returning Active=False")
+        stop_balancer()
+        delete_all_scaledjob_jobs()
+        time.sleep(0.5)
+        delete_all_scaledjob_pods()
         return externalscaler_pb2.IsActiveResponse(result=False)
 
     def GetMetricSpec(self, request, context):
-        metric_name = "gpu_trigger"
-        metric = externalscaler_pb2.MetricSpec(metricName=metric_name, targetSize=1)
+        metric = externalscaler_pb2.MetricSpec(metricName="gpu_trigger", targetSize=1)
         return externalscaler_pb2.GetMetricSpecResponse(metricSpecs=[metric])
 
     def GetMetrics(self, request, context):
         print("📊 KEDA called GetMetrics()")
-        total = 0
-        for config in GPU_QUERIES.values():
-            usage = query_prometheus(config["metric"], config["instance"])
+        total_capacity = 0
+        for cfg in GPU_QUERIES.values():
+            usage = query_prometheus(cfg["metric"], cfg["instance"])
             if usage is not None:
-                total += max(0, 100 - usage)  # inverse logic
+                total_capacity += max(0, 100 - usage)
         return externalscaler_pb2.GetMetricsResponse(
-            metricValues=[externalscaler_pb2.MetricValue(metricName="gpu_trigger", metricValue=int(total))]
+            metricValues=[externalscaler_pb2.MetricValue(metricName="gpu_trigger", metricValue=int(total_capacity))]
         )
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     externalscaler_pb2_grpc.add_ExternalScalerServicer_to_server(ExternalScalerServicer(), server)
     server.add_insecure_port("[::]:50051")
-    print("🔁 Starting gRPC External Scaler on port 50051...")
-
-    # Print initial GPU usage before KEDA begins calling methods
-    print("\n📊 Initial GPU status of all worker nodes:")
-    for node, config in GPU_QUERIES.items():
-        usage = query_prometheus(config["metric"], config["instance"])
-        if usage is not None:
-            print(f"   • {node}: {usage:.2f}% GPU used")
-        else:
-            print(f"   • {node}: ❌ Unable to fetch GPU usage")
-
+    print("🔁 Starting gRPC External Scaler on :50051 ...")
     server.start()
     server.wait_for_termination()
 

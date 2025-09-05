@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # App code (all three scripts)
-COPY Images_From_Pi1.py Images_From_Pi2.py Images_From_Pi3.py ./
+COPY Images_From_Pi1.py Images_From_Pi1_1.py Images_From_Pi1_2.py Images_From_Pi1_3.py Images_From_Pi1_4.py Images_From_Pi2.py Images_From_Pi2_1.py Images_From_Pi2_2.py Images_From_Pi2_3.py Images_From_Pi2_4.py Images_From_Pi3.py ./
 
 # Remove entrypoint logic
 CMD ["python3"]

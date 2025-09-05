@@ -1,8 +1,10 @@
-import subprocess
+#!/usr/bin/env python3
+import glob
 import os
 import signal
+import subprocess
 
-def run_command(command, ignore_error=False):
+def run(command, ignore_error=False):
     print(f"🔧 Running: {command}")
     try:
         subprocess.run(command, shell=True, check=True)
@@ -11,51 +13,71 @@ def run_command(command, ignore_error=False):
             raise
         print(f"⚠️ Command failed (but continuing): {e}")
 
-def kill_process_by_name(script_name, label):
-    print(f"🛑 Looking for '{script_name}' process to terminate...")
+def pkill(pattern, sig=signal.SIGTERM):
+    print(f"🛑 pkill -f '{pattern}'")
     try:
-        result = subprocess.check_output(f"ps aux | grep {script_name} | grep -v grep", shell=True).decode()
-        lines = result.strip().split("\n")
-        for line in lines:
-            if script_name in line:
-                pid = int(line.split()[1])
-                os.kill(pid, signal.SIGTERM)
-                print(f"✅ Killed {label} process (PID: {pid})")
+        # Use numeric signal for portability (e.g., 15 = SIGTERM)
+        subprocess.run(f"pkill -f -{sig.value} '{pattern}'", shell=True, check=False)
     except Exception as e:
-        print(f"⚠️ Failed to find or kill {label} process: {e}")
+        print(f"⚠️ pkill failed for {pattern}: {e}")
 
-def delete_patched_yaml():
-    if os.path.exists("patched-job.yaml"):
-        try:
-            os.remove("patched-job.yaml")
-            print("🧹 Removed old patched-job.yaml")
-        except Exception as e:
-            print(f"⚠️ Could not delete patched-job.yaml: {e}")
+def kill_by_port(port, sig=signal.SIGTERM):
+    print(f"🛑 Killing processes listening on :{port}")
+    # Prefer lsof if present; otherwise fall back to ss
+    if subprocess.run("command -v lsof >/dev/null 2>&1", shell=True).returncode == 0:
+        run(f"lsof -t -i :{port} | xargs -r kill -{sig.value}", ignore_error=True)
+    else:
+        run(
+            "ss -lptn 'sport = :{p}' | awk -F',' 'NR>1{{print $3}}' | "
+            "awk -F'pid=' '{{print $2}}' | awk '{{print $1}}' | "
+            f"xargs -r kill -{sig.value}".format(p=port),
+            ignore_error=True,
+        )
+
+def delete_by_prefix(kind, prefix):
+    # Delete any K8s object whose resource name contains the prefix
+    run(
+        f"kubectl get {kind} -o name 2>/dev/null | "
+        f"awk -F'/' '/{prefix}/{{print $2}}' | "
+        f"xargs -r kubectl delete {kind}",
+        ignore_error=True,
+    )
 
 def stop_everything():
     print("⛔ Stopping Docker containers...")
-    run_command("docker-compose down", ignore_error=True)
+    run("docker-compose down", ignore_error=True)
 
-    print("🛑 Killing CPU monitor and gRPC scaler...")
-    kill_process_by_name("cpu_monitor_and_offload.py", "CPU monitor")
-    kill_process_by_name("gpu_affinity_watcher.py", "GPU watcher")
+    print("🛑 Killing monitor/watcher processes...")
+    pkill("cpu_monitor_and_offload.py")   # External Scaler + Prometheus polling
+    pkill("gpu_balancer.py")     # Node watcher / rebalancer
+    kill_by_port(50051)                  # gRPC External Scaler port (safety)
 
-    print("🧼 Deleting all posture-analyzer jobs...")
-    run_command("kubectl get jobs --no-headers | awk '/^posture-analyzer/ {print $1}' | xargs -r kubectl delete job", ignore_error=True)
+    print("🧼 Deleting posture-analyzer Jobs first...")
+    delete_by_prefix("job", "posture-analyzer-")
 
-    print("🧼 Deleting all posture-analyzer pods...")
-    run_command("kubectl get pods --no-headers | awk '/^posture-analyzer/ {print $1}' | xargs -r kubectl delete pod", ignore_error=True)
+    print("🗑️ Deleting leftover posture-analyzer Pods...")
+    delete_by_prefix("pod", "posture-analyzer-")
 
-    print("🧼 Deleting the ScaledJob...")
-    run_command("kubectl delete scaledjob posture-analyzer-scaledjob", ignore_error=True)
+    print("🧼 Deleting posture-analyzer ScaledJobs...")
+    delete_by_prefix("scaledjob", "posture-analyzer-")
+
+    print("🧹 Cleaning patched YAMLs...")
+    for path in glob.glob("patched-job-*.yaml"):
+        try:
+            os.remove(path)
+            print(f"🧽 Removed {path}")
+        except Exception as e:
+            print(f"⚠️ Could not remove {path}: {e}")
 
     print("🧽 Untainting master node (nuc) to restore normal scheduling...")
-    run_command("kubectl taint nodes nuc node-role.kubernetes.io/master- --overwrite || true")
+    run("kubectl taint nodes nuc node-role.kubernetes.io/master- --overwrite || true", ignore_error=True)
 
-    delete_patched_yaml()
-    print("✅ All jobs, pods, and watchers stopped.")
+    print("✅ All jobs, pods, ScaledJobs, and watchers stopped.")
 
 if __name__ == "__main__":
-    print("🟡 Press ENTER at any time to stop everything...")
-    input()
+    try:
+        print("🟡 Press ENTER at any time to stop everything...")
+        input()
+    except KeyboardInterrupt:
+        pass
     stop_everything()
