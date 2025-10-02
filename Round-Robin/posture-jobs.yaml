@@ -1,0 +1,179 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1
+          image: shahroz90/posture-analyzer-pi1:latest
+          command: ["python3", "/app/Images_From_Pi1.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-1
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-1
+          image: shahroz90/posture-analyzer-pi1-1:latest
+          command: ["python3", "/app/Images_From_Pi1_1.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-2
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-2
+          image: shahroz90/posture-analyzer-pi1-2:latest
+          command: ["python3", "/app/Images_From_Pi1_2.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-3
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-3
+          image: shahroz90/posture-analyzer-pi1-3:latest
+          command: ["python3", "/app/Images_From_Pi1_3.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-4
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-4
+          image: shahroz90/posture-analyzer-pi1-4:latest
+          command: ["python3", "/app/Images_From_Pi1_4.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-5
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-5
+          image: shahroz90/posture-analyzer-pi1-5:latest
+          command: ["python3", "/app/Images_From_Pi1_5.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-6
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-6
+          image: shahroz90/posture-analyzer-pi1-6:latest
+          command: ["python3", "/app/Images_From_Pi1_6.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-7
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-7
+          image: shahroz90/posture-analyzer-pi1-7:latest
+          command: ["python3", "/app/Images_From_Pi1_7.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-8
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-8
+          image: shahroz90/posture-analyzer-pi1-8:latest
+          command: ["python3", "/app/Images_From_Pi1_8.py"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-9
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+        scheduling: rr
+    spec:
+      schedulerName: rr-scheduler
+      restartPolicy: Never
+      containers:
+        - name: pi1-9
+          image: shahroz90/posture-analyzer-pi1-9:latest
+          command: ["python3", "/app/Images_From_Pi1_9.py"]

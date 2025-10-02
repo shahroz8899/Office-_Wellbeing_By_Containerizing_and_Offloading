@@ -1,0 +1,114 @@
+
+version: "3.8"
+
+services:
+  pi1:
+    image: shahroz90/posture-analyzer-pi1:latest
+    container_name: pi1-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-1:
+    image: shahroz90/posture-analyzer-pi1-1:latest
+    container_name: pi1-1-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-2:
+    image: shahroz90/posture-analyzer-pi1-2:latest
+    container_name: pi1-2-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-3:
+    image: shahroz90/posture-analyzer-pi1-3:latest
+    container_name: pi1-3-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-4:
+    image: shahroz90/posture-analyzer-pi1-4:latest
+    container_name: pi1-4-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-5:
+    image: shahroz90/posture-analyzer-pi1-5:latest
+    container_name: pi1-5-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-6:
+    image: shahroz90/posture-analyzer-pi1-6:latest
+    container_name: pi1-6-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-7:
+    image: shahroz90/posture-analyzer-pi1-7:latest
+    container_name: pi1-7-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-8:
+    image: shahroz90/posture-analyzer-pi1-8:latest
+    container_name: pi1-8-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+
+  pi1-9:
+    image: shahroz90/posture-analyzer-pi1-94:latest
+    container_name: pi1-9-analyzer
+    volumes:
+      - ./analyzed_images:/app/analyzed_images
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Helsinki
+      - DB_ENABLED=false
+    restart: always
+

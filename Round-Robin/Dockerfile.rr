@@ -1,0 +1,11 @@
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir kubernetes==29.0.0
+WORKDIR /app
+COPY rr-scheduler.py /app/rr-scheduler.py
+
+# Run as non-root (optional)
+RUN useradd -m rr
+USER rr
+
+ENTRYPOINT ["python", "/app/rr-scheduler.py"]

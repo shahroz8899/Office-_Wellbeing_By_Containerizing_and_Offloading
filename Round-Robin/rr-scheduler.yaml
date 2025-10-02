@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rr-scheduler
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: rr-scheduler
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/binding", "bindings", "nodes"]
+    verbs: ["get", "list", "watch", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: rr-scheduler
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: rr-scheduler
+subjects:
+  - kind: ServiceAccount
+    name: rr-scheduler
+    namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rr-scheduler
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rr-scheduler
+  template:
+    metadata:
+      labels:
+        app: rr-scheduler
+    spec:
+      serviceAccountName: rr-scheduler
+      containers:
+        - name: rr-scheduler
+          image: shahroz90/rr-scheduler:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: RR_SCHEDULER_NAME
+              value: "rr-scheduler"
+            - name: RR_NODE_ORDER
+              value: "agx-desktop,orin-desktop,orin1-desktop,orin2-desktop,nano1-desktop,nano2-desktop"
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+      # allow scheduler to run on control-plane if tainted
+      tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
