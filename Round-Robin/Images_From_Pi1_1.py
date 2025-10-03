@@ -22,7 +22,7 @@ import re
 # ---------------------------
 BROKER = os.environ.get("MQTT_BROKER", "192.168.1.79")
 PORT = int(os.environ.get("MQTT_PORT", "1883"))
-TOPIC = os.environ.get("MQTT_TOPIC", "images/pi1_1")
+TOPIC = os.environ.get("MQTT_TOPIC", "images/#")
 OUTPUT_BASE = os.environ.get("OUTPUT_DIR", "./analyzed_images")
 
 _default_workers = os.cpu_count() or 4
