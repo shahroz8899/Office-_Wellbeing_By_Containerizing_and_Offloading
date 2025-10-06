@@ -17,6 +17,21 @@ import subprocess
 import threading
 import re
 
+# --- begin: node-local output setup (added) ---
+# Save outputs on the node where the pod runs, under:
+#   /app/analyzed_images/<NODE_NAME>/<POD_NAME>/<RUN_ID>/
+NODE_NAME = os.getenv("NODE_NAME", "unknown-node")
+POD_NAME = os.getenv("POD_NAME", "unknown-pod")
+ANALYZED_BASE = os.getenv("ANALYZED_DIR", "/app/analyzed_images")
+RUN_ID = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+OUT_DIR = os.path.join(ANALYZED_BASE, NODE_NAME, POD_NAME, RUN_ID)
+os.makedirs(OUT_DIR, exist_ok=True)
+
+def out_path(filename: str) -> str:
+    """Build absolute path under OUT_DIR for images/CSV/etc."""
+    return os.path.join(OUT_DIR, filename)
+# --- end: node-local output setup (added) ---
+
 # ---------------------------
 # Config (env overrides)
 # ---------------------------
@@ -53,6 +68,13 @@ LOGGER.addHandler(_sh)
 os.makedirs(OUTPUT_BASE, exist_ok=True)
 LOGGER.info("🚀 Starting benchmark on %s | MQTT %s:%s | topic=%s | workers=%s",
             socket.gethostname(), BROKER, PORT, TOPIC, NUM_WORKERS)
+
+# --- begin: node-local overrides (added) ---
+# Prefer node-local base dir and write CSV inside OUT_DIR by default.
+OUTPUT_BASE = ANALYZED_BASE
+os.makedirs(OUT_DIR, exist_ok=True)
+CSV_PATH = os.environ.get("CSV_PATH", out_path("results.csv"))
+# --- end: node-local overrides (added) ---
 
 # ---------------------------
 # DB
@@ -443,8 +465,8 @@ def main():
             parts = topic.split("/")
             pi_id = parts[1] if len(parts) > 1 else "unknown"
 
-            # out dir
-            output_folder = os.path.join(OUTPUT_BASE, f"analyzed_images_from_{pi_id}")
+            # out dir (node-local under OUT_DIR)
+            output_folder = os.path.join(OUT_DIR, f"analyzed_images_from_{pi_id}")
             os.makedirs(output_folder, exist_ok=True)
 
             h, w = image_bgr.shape[:2]
