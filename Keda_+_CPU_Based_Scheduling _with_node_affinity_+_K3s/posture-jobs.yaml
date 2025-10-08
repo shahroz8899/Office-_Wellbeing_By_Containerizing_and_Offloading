@@ -1,0 +1,370 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-1
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_1:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_1.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-2
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_2:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_2.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-3
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_3:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_3.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-4
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_4:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_4.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-5
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_5:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_5.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-6
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_6:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_6.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-7
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_7:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_7.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-8
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_8:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_8.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: posture-pi1-9
+spec:
+  template:
+    metadata:
+      labels:
+        app: posture
+    spec:
+      schedulerName: cpu-scheduler
+      restartPolicy: Never
+      containers:
+      - name: analyzer
+        image: shahroz90/posture-analyzer-images_from_pi1_9:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "/app/Images_From_Pi1_9.py"]
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ANALYZED_DIR
+          value: "/app/analyzed_images"
+        volumeMounts:
+        - name: images-vol
+          mountPath: /app/analyzed_images
+      volumes:
+      - name: images-vol
+        hostPath:
+          path: /var/lib/posture/analyzed_images
+          type: DirectoryOrCreate
+
