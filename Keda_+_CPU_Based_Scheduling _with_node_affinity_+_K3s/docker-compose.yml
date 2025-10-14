@@ -102,7 +102,7 @@ services:
     restart: always
 
   pi1-9:
-    image: shahroz90/posture-analyzer-pi1-94:latest
+    image: shahroz90/posture-analyzer-pi1-9:latest
     container_name: pi1-9-analyzer
     volumes:
       - ./analyzed_images:/app/analyzed_images

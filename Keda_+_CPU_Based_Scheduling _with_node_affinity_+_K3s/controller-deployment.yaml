@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posture-controller
+  namespace: posture
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posture-controller
+  template:
+    metadata:
+      labels:
+        app: posture-controller
+    spec:
+      serviceAccountName: posture-controller
+      containers:
+        - name: controller
+          image: shahroz90/posture-controller:latest
+          imagePullPolicy: Always
+          env:
+            - name: PROM_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: prometheus-config
+                  key: PROM_URL
+            - name: CPU_THRESHOLD
+              value: "0.9"
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posture-controller
+  namespace: posture
+spec:
+  selector:
+    app: posture-controller
+  ports:
+    - port: 8080
+      targetPort: 8080
+
