@@ -14,6 +14,8 @@ spec:
         app: posture-controller
     spec:
       serviceAccountName: posture-controller
+      nodeSelector:
+        kubernetes.io/hostname: nuc   # 🔒 Ensures controller runs only on master node
       containers:
         - name: controller
           image: shahroz90/posture-controller:latest

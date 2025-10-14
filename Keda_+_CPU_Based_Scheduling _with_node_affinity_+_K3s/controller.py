@@ -1,8 +1,8 @@
-# controller.py
 import asyncio
 import os
 import random
 from typing import Dict, List, Tuple
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from prometheus_api_client import PrometheusConnect
@@ -23,6 +23,9 @@ v1 = client.CoreV1Api()
 
 app = FastAPI()
 
+# ----------------------------------------------------------
+# Prometheus helpers
+# ----------------------------------------------------------
 def _prom_cpu_30s_by_instance() -> Dict[str, float]:
     query = '(1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[30s])))'
     results = prom.custom_query(query)
@@ -35,6 +38,7 @@ def _prom_cpu_30s_by_instance() -> Dict[str, float]:
             node_cpu[node] = cpu
     return node_cpu
 
+
 def resolve_node_name(ip: str) -> str | None:
     try:
         nodes = v1.list_node().items
@@ -46,12 +50,14 @@ def resolve_node_name(ip: str) -> str | None:
         print("Error resolving node name:", e)
     return None
 
+
 def patch_node_label(node_name: str, key: str, value: str | None):
     body = {"metadata": {"labels": {key: (value if value is not None else None)}}}
     try:
         v1.patch_node(node_name, body)
     except Exception as e:
         print(f"Failed to label {node_name} ({key}={value}): {e}")
+
 
 def list_all_node_names() -> List[str]:
     try:
@@ -60,9 +66,13 @@ def list_all_node_names() -> List[str]:
         print("Error listing nodes:", e)
         return []
 
+
 def rank_nodes_least_loaded(node_cpu: Dict[str, float]) -> List[Tuple[str, float]]:
     return sorted(node_cpu.items(), key=lambda x: (x[1], random.random()))
 
+# ----------------------------------------------------------
+# Background labeling loop
+# ----------------------------------------------------------
 async def label_nodes_loop():
     while True:
         try:
@@ -101,6 +111,9 @@ async def label_nodes_loop():
 
         await asyncio.sleep(LABEL_LOOP_SECONDS)
 
+# ----------------------------------------------------------
+# Overload eviction endpoint
+# ----------------------------------------------------------
 def find_analyzer_pod_on_node(node: str) -> str | None:
     try:
         pods = v1.list_namespaced_pod(namespace=NAMESPACE, label_selector="app=posture-analyzer").items
@@ -110,6 +123,7 @@ def find_analyzer_pod_on_node(node: str) -> str | None:
     except Exception as e:
         print(f"Error listing pods on node {node}: {e}")
     return None
+
 
 @app.post("/overload")
 async def handle_overload(request: Request):
@@ -151,7 +165,25 @@ async def handle_overload(request: Request):
         print(f"❌ Error in /overload: {e}")
         return {"status": "error", "message": str(e)}
 
-@app.on_event("startup")
-async def _start_labeler():
-    asyncio.create_task(label_nodes_loop())
-    print("controller: label_nodes_loop started")
+# ----------------------------------------------------------
+# Lifespan handler (replaces deprecated on_event)
+# ----------------------------------------------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        print("🌿 Launching node-labeler background task ...")
+        asyncio.create_task(label_nodes_loop())
+        print("✅ controller: label_nodes_loop started successfully")
+    except Exception as e:
+        print(f"❌ Failed to start labeler: {e}")
+    yield  # shutdown code not needed
+
+app.router.lifespan_context = lifespan
+
+# ----------------------------------------------------------
+# Entrypoint
+# ----------------------------------------------------------
+if __name__ == "__main__":
+    import uvicorn
+    print("🚀 Starting Posture Controller FastAPI server on port 8080 ...")
+    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="info")

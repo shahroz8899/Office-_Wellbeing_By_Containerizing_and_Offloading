@@ -2,11 +2,15 @@ import os
 import subprocess
 from datetime import datetime, timezone
 
+# ---- Config ----
 NAMESPACE = os.getenv("NAMESPACE", "posture")
-PROM_URL = os.getenv("PROM_URL", "http://prometheus.monitoring.svc.cluster.local:9090")
+PROM_URL = os.getenv("PROM_URL", "http://10.43.181.60:9090")
 CPU_THRESHOLD = os.getenv("CPU_THRESHOLD", "0.70")
 METRIC_NAME = os.getenv("METRIC_NAME", "available_node_count_30s")
-CONTROLLER_URL = os.getenv("CONTROLLER_URL", "http://posture-controller.posture.svc.cluster.local:8080/overload")
+CONTROLLER_URL = os.getenv(
+    "CONTROLLER_URL",
+    "http://posture-controller.posture.svc.cluster.local:8080/overload"
+)
 
 SCALER_IMAGE_REPO = os.getenv("SCALER_IMAGE_REPO", "shahroz90/posture-external-scaler")
 SCALER_DOCKERFILE = os.getenv("SCALER_DOCKERFILE", "Dockerfile.scaler")
@@ -28,8 +32,11 @@ ANALYZER_SCRIPTS = [
     "Images_From_Pi1_9.py",
 ]
 
-PLATFORMS = os.getenv("PLATFORMS", "linux/arm64/v8")
+# ✅ Jetson nodes are ARM64, NUC master is AMD64 → build multi-arch for infra
+PLATFORMS_MULTIARCH = "linux/amd64,linux/arm64/v8"
+PLATFORMS_ANALYZERS = "linux/arm64/v8"
 
+# ---- Helpers ----
 def sh(cmd: str, check: bool = True):
     print(f"› {cmd}")
     rc = subprocess.call(cmd, shell=True)
@@ -39,24 +46,22 @@ def sh(cmd: str, check: bool = True):
 def ts_tag() -> str:
     return datetime.now(timezone.utc).strftime("v%Y%m%d-%H%M%S")
 
+# ---- Cleanup ----
 def cleanup_environment():
     print("🧹 Cleaning up old Kubernetes resources and Docker images...")
-
-    # Delete K8s resources
     sh(f"kubectl -n {NAMESPACE} delete deploy posture-external-scaler --ignore-not-found", check=False)
     sh(f"kubectl -n {NAMESPACE} delete deploy posture-controller --ignore-not-found", check=False)
-    sh(f"kubectl -n {NAMESPACE} delete scaledjob posture-analyzer-jobs --ignore-not-found", check=False)
+    sh(f"kubectl -n {NAMESPACE} delete scaledjob --all --ignore-not-found", check=False)
     sh(f"kubectl -n {NAMESPACE} delete job --all --ignore-not-found", check=False)
     sh(f"kubectl -n {NAMESPACE} delete pod --all --ignore-not-found", check=False)
     sh(f"kubectl -n {NAMESPACE} delete svc posture-external-scaler --ignore-not-found", check=False)
     sh(f"kubectl -n {NAMESPACE} delete svc posture-controller --ignore-not-found", check=False)
-
-    # Remove local Docker images for all repos
-    sh(f"docker image prune -f", check=False)
+    sh("docker image prune -f", check=False)
     sh(f"docker rmi $(docker images {SCALER_IMAGE_REPO} -q) -f || true", check=False)
     sh(f"docker rmi $(docker images {CONTROLLER_IMAGE_REPO} -q) -f || true", check=False)
     sh(f"docker rmi $(docker images '{ANALYZER_REPO_BASE}-*' -q) -f || true", check=False)
 
+# ---- Main build process ----
 def main():
     cleanup_environment()
 
@@ -73,19 +78,19 @@ data:
 """
     sh(f"cat <<'EOF' | kubectl apply -f -\n{cm}\nEOF")
 
-    # Buildx helper
-    print("🧱 Ensuring docker buildx builder...")
+    # ---- Buildx setup ----
+    print("🧱 Ensuring docker buildx builder…")
     sh("docker buildx inspect posturebuilder >/dev/null 2>&1 || docker buildx create --name posturebuilder --use", check=False)
     sh("docker buildx use posturebuilder", check=False)
-    sh("docker run --privileged --rm tonistiigi/binfmt --install arm64 >/dev/null 2>&1 || true", check=False)
+    sh("docker run --privileged --rm tonistiigi/binfmt --install all >/dev/null 2>&1 || true", check=False)
 
     # ---- External Scaler ----
-    print("🔧 Building External Scaler image…")
+    print("🔧 Building External Scaler image (multi-arch)…")
     scaler_tag = ts_tag()
     scaler_image = f"{SCALER_IMAGE_REPO}:{scaler_tag}"
-    sh(f"docker buildx build --no-cache --platform {PLATFORMS} -t {scaler_image} -f {SCALER_DOCKERFILE} --push .")
+    sh(f"docker buildx build --platform {PLATFORMS_MULTIARCH} -t {scaler_image} -f {SCALER_DOCKERFILE} --push .")
 
-    print("🚀 Applying clean scaler Deployment+Service…")
+    print("🚀 Deploying External Scaler (port 8080)...")
     scaler_yaml = f"""apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -101,13 +106,14 @@ spec:
       labels:
         app: posture-external-scaler
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: nuc
       containers:
         - name: scaler
           image: {scaler_image}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-            - containerPort: 8081
           env:
             - name: PROM_URL
               valueFrom:
@@ -120,13 +126,6 @@ spec:
               value: "{METRIC_NAME}"
             - name: CONTROLLER_URL
               value: "{CONTROLLER_URL}"
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "64Mi"
-            limits:
-              cpu: "200m"
-              memory: "128Mi"
 ---
 apiVersion: v1
 kind: Service
@@ -140,17 +139,14 @@ spec:
     - name: grpc
       port: 8080
       targetPort: 8080
-    - name: http
-      port: 8081
-      targetPort: 8081
 """
     sh(f"cat <<'EOF' | kubectl apply -f -\n{scaler_yaml}\nEOF")
     sh(f"kubectl -n {NAMESPACE} rollout status deploy/posture-external-scaler --timeout=180s")
 
     # ---- Controller ----
-    print("🔧 Building Controller image…")
+    print("🔧 Building Controller image (multi-arch)…")
     controller_image = f"{CONTROLLER_IMAGE_REPO}:latest"
-    sh(f"docker buildx build --no-cache --platform {PLATFORMS} -t {controller_image} -f {CONTROLLER_DOCKERFILE} --push .")
+    sh(f"docker buildx build --platform {PLATFORMS_MULTIARCH} -t {controller_image} -f {CONTROLLER_DOCKERFILE} --push .")
 
     print("🚀 Applying Controller manifests…")
     sh(f"kubectl apply -n {NAMESPACE} -f controller-rbac.yaml")
@@ -160,17 +156,19 @@ spec:
     sh(f"kubectl -n {NAMESPACE} rollout status deploy/posture-controller --timeout=180s")
 
     # ---- Analyzer images ----
-    print("🔨 Building analyzer images…")
+    print("🔨 Building analyzer images for ARM64…")
     for i, script in enumerate(ANALYZER_SCRIPTS):
         img = f"{ANALYZER_REPO_BASE}-{i}:latest"
         print(f"📦 {img}  ←  {script}")
-        sh(f"docker buildx build --no-cache --platform {PLATFORMS} --build-arg APP='{script}' -t {img} --push .")
+        sh(f"docker buildx build --platform {PLATFORMS_ANALYZERS} --build-arg APP='{script}' -t {img} --push .")
     print("✅ Analyzer images built & pushed.")
 
-    # ---- ScaledJob ----
-    print("📜 Applying ScaledJob…")
-    sh(f"kubectl apply -n {NAMESPACE} -f scaledjob.yaml")
-    print("✅ Done. Pods will start when the scaler reports capacity.")
+    # ---- ScaledJobs ----
+    print("📜 Applying ScaledJobs (10 analyzer jobs)...")
+    sh(f"kubectl apply -n {NAMESPACE} -f scaledjobs-all.yaml")
+
+    print("✅ All components deployed successfully.")
+    print("ℹ️  KEDA will now queue and release jobs based on available nodes (check `kubectl get pods -n posture -w`).")
 
 if __name__ == "__main__":
     main()
