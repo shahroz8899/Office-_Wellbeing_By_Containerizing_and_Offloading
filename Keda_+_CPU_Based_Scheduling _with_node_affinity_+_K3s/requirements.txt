@@ -1,0 +1,9 @@
+# Core posture analysis requirements
+
+numpy
+opencv-python
+mediapipe
+paho-mqtt
+psutil
+psycopg2-binary
+

@@ -1,0 +1,16 @@
+{
+  "external_scaler.py": 1565670,
+  "controller.py": 1565671,
+  "queue_releaser.py": 1565672,
+  "logs_dir": "/home/nuc/Desktop/CPU + Node affinity+Keda/Keda 8/_logs",
+  "started_at": "20251018-150313",
+  "config": {
+    "namespace": "posture",
+    "prom_url": "http://localhost:9090",
+    "cpu_threshold": "0.70",
+    "exclude_nodes": "localhost",
+    "grpc_port": "8080",
+    "http_port": "8088",
+    "allowed_url": "http://localhost:8088/allowed"
+  }
+}
