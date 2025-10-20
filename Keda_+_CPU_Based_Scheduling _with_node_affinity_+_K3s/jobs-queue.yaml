@@ -22,18 +22,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-0:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1.py"]
-        
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -59,18 +59,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-1:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_1.py"]
-        
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -96,18 +96,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-2:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_2.py"]
-        
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -133,18 +133,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-3:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_3.py"]
-        
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -170,18 +170,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-4:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_4.py"]
-       
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -207,18 +207,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-5:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_5.py"]
-        
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -244,18 +244,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-6:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_6.py"]
-        
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -281,18 +281,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-7:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_7.py"]
-       
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -318,18 +318,18 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-8:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_8.py"]
-       
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -355,15 +355,15 @@ spec:
           - { weight: 50,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["2"] } ] } }
           - { weight: 10,  preference: { matchExpressions: [ { key: posture/rank, operator: In, values: ["3"] } ] } }
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector: { matchLabels: { app: posture-queued } }
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: posture-queued
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: analyzer
         image: docker.io/shahroz90/posture-analyzer-pi1-9:latest
         imagePullPolicy: IfNotPresent
         command: ["python"]
         args: ["/app/Images_From_Pi1_9.py"]
-       
+
